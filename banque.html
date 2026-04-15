@@ -404,6 +404,85 @@ tbody tr:hover{background:var(--card-hover)}
   color:var(--green);padding:3px 10px;border-radius:10px;font-size:10px;font-weight:700;margin-bottom:6px;
 }
 
+/* APPLE PAY */
+.btn-apple-pay{
+  width:100%;margin-top:10px;padding:12px;border-radius:var(--radius);
+  border:none;background:#000;color:#fff;font-size:14px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  cursor:pointer;transition:all .2s;
+}
+.btn-apple-pay:hover{background:#1a1a1a;box-shadow:var(--shadow-md)}
+.applepay-status{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  margin-top:10px;padding:10px;border-radius:var(--radius);
+  background:var(--green-light);color:var(--green);font-size:12px;font-weight:700;
+}
+.ap-modal{
+  display:none;position:fixed;inset:0;background:rgba(11,20,38,.65);
+  backdrop-filter:blur(6px);z-index:300;justify-content:center;align-items:center;
+}
+.ap-modal.active{display:flex}
+.ap-sheet{
+  background:#fff;border-radius:var(--radius-xl);width:420px;max-width:95vw;
+  overflow:hidden;box-shadow:var(--shadow-xl);animation:mIn .3s ease;
+}
+.ap-sheet-hdr{
+  background:#000;color:#fff;padding:24px;text-align:center;
+}
+.ap-sheet-hdr .apple-logo{font-size:28px;margin-bottom:6px}
+.ap-sheet-hdr h3{font-size:18px;font-weight:800;letter-spacing:-.3px}
+.ap-sheet-hdr p{font-size:12px;opacity:.6;margin-top:4px}
+.ap-sheet-body{padding:24px}
+.ap-card-preview{
+  background:linear-gradient(135deg,var(--navy),var(--navy-mid));
+  border-radius:12px;padding:16px 20px;color:#fff;margin-bottom:20px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.ap-card-preview .apc-left{display:flex;align-items:center;gap:12px}
+.ap-card-preview .apc-num{font-size:13px;font-weight:600;letter-spacing:1px}
+.ap-card-preview .apc-type{font-size:10px;color:var(--gold);font-weight:700}
+.ap-steps{margin-bottom:20px}
+.ap-step{
+  display:flex;align-items:flex-start;gap:12px;padding:10px 0;
+  border-bottom:1px solid var(--border-light);
+}
+.ap-step:last-child{border:none}
+.ap-step-num{
+  width:24px;height:24px;border-radius:50%;background:var(--bg);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:800;color:var(--text-2);flex-shrink:0;
+}
+.ap-step-num.done{background:var(--green-light);color:var(--green)}
+.ap-step-txt{font-size:13px;font-weight:500;line-height:1.5}
+.ap-step-txt span{display:block;font-size:11px;color:var(--text-3);font-weight:400}
+.ap-code-input{
+  display:flex;gap:8px;justify-content:center;margin:16px 0;
+}
+.ap-code-input input{
+  width:44px;height:52px;text-align:center;font-size:22px;font-weight:800;
+  border:2px solid var(--border);border-radius:10px;outline:none;
+  transition:border .15s;
+}
+.ap-code-input input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(27,122,80,.1)}
+.ap-sheet-actions{padding:0 24px 24px;display:flex;gap:10px}
+.ap-sheet-actions .btn{flex:1;padding:12px;justify-content:center}
+.ap-progress{
+  height:4px;background:var(--bg);border-radius:2px;margin:16px 0;overflow:hidden;
+}
+.ap-progress-bar{
+  height:100%;background:var(--green);border-radius:2px;width:0;
+  transition:width 1.5s ease;
+}
+.ap-success-view{display:none;text-align:center;padding:32px 24px}
+.ap-success-view.active{display:block}
+.ap-success-view .suc-icon{
+  width:56px;height:56px;border-radius:50%;background:var(--green-light);
+  display:inline-flex;align-items:center;justify-content:center;
+  color:var(--green);margin-bottom:14px;animation:pop .4s ease;
+}
+.ap-success-view h3{font-size:16px;font-weight:800;color:var(--green);margin-bottom:6px}
+.ap-success-view p{font-size:12px;color:var(--text-2);margin-bottom:16px;line-height:1.5}
+
 /* RESPONSIVE */
 @media(max-width:900px){
   .sidebar{display:none}
@@ -471,6 +550,8 @@ tbody tr:hover{background:var(--card-hover)}
   <symbol id="ic-dollar" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></symbol>
   <symbol id="ic-inbox" viewBox="0 0 24 24"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0016.76 4H7.24a2 2 0 00-1.79 1.11z"/></symbol>
   <symbol id="ic-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></symbol>
+  <symbol id="ic-smartphone" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></symbol>
+  <symbol id="ic-wifi" viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0114.08 0"/><path d="M1.42 9a16 16 0 0121.16 0"/><path d="M8.53 16.11a6 6 0 016.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></symbol>
 </svg>
 
 <div class="topbar">
@@ -671,6 +752,15 @@ tbody tr:hover{background:var(--card-hover)}
         <button class="btn btn-outline" style="flex:1" id="btn-block-card" onclick="toggleCard()"><span class="i i-sm"><svg><use href="#ic-lock"/></svg></span><span id="block-label">Bloquer</span></button>
         <button class="btn btn-outline" style="flex:1" onclick="toggleCardNum()"><span class="i i-sm"><svg><use href="#ic-eye"/></svg></span>Voir le numero</button>
       </div>
+      <!-- Apple Pay -->
+      <button class="btn-apple-pay" id="btn-applepay" onclick="openApplePay()">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="none"><path d="M17.72 7.56c-.17.13-1.02.59-1.02 1.8 0 1.4 1.23 1.9 1.27 1.91-.01.04-.2.68-.65 1.34-.4.58-.82 1.17-1.47 1.17s-.86-.38-1.65-.38c-.77 0-1.04.39-1.64.39s-1-.56-1.47-1.22c-.54-.78-.98-2-.98-3.08 0-1.81 1.18-2.77 2.34-2.77.62 0 1.13.4 1.52.4.37 0 .94-.43 1.64-.43.27 0 1.2.02 1.82.92zm-2.15-1.66c.3-.36.51-.85.51-1.35 0-.07 0-.14-.01-.2-.49.02-.1.07.17-1.14.49-.87.89-.6 1.07-.6.04 0 .06 0 .09 0-.01.04-.01.1-.01.16 0 .5-.18 1.02-.51 1.38-.29.33-.72.62-1.15.62-.04 0-.09 0-.12-.01z"/></svg>
+        <span>Ajouter a Apple Pay</span>
+      </button>
+      <div class="applepay-status" id="applepay-status" style="display:none">
+        <span class="i i-sm" style="color:var(--green)"><svg><use href="#ic-check"/></svg></span>
+        <span>Carte active sur Apple Pay</span>
+      </div>
     </div>
     <div>
       <div class="setting-group">
@@ -837,6 +927,80 @@ tbody tr:hover{background:var(--card-hover)}
       <p id="suc-msg"></p>
       <p style="font-size:11px;color:var(--text-3);margin-bottom:20px">Ref : VIR-<span id="suc-ref"></span></p>
       <button class="btn btn-primary" onclick="closeVirement()">Retour</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL APPLE PAY ===== -->
+<div class="ap-modal" id="modal-applepay">
+  <div class="ap-sheet">
+    <div class="ap-sheet-hdr">
+      <div class="apple-logo"><svg viewBox="0 0 24 24" width="32" height="32" fill="#fff" stroke="none"><path d="M17.72 7.56c-.17.13-1.02.59-1.02 1.8 0 1.4 1.23 1.9 1.27 1.91-.01.04-.2.68-.65 1.34-.4.58-.82 1.17-1.47 1.17s-.86-.38-1.65-.38c-.77 0-1.04.39-1.64.39s-1-.56-1.47-1.22c-.54-.78-.98-2-.98-3.08 0-1.81 1.18-2.77 2.34-2.77.62 0 1.13.4 1.52.4.37 0 .94-.43 1.64-.43.27 0 1.2.02 1.82.92zm-2.15-1.66c.3-.36.51-.85.51-1.35 0-.07 0-.14-.01-.2-.49.02-1.07.17-1.49.49-.87.89-.6 1.07-.6.04 0 .06 0 .09 0-.01.04-.01.1-.01.16 0 .5-.18 1.02-.51 1.38-.29.33-.72.62-1.15.62-.04 0-.09 0-.12-.01z"/></svg></div>
+      <h3>Ajouter a Apple Pay</h3>
+      <p>Banque Helvetia &middot; Visa Premier</p>
+    </div>
+    <!-- Step 1: Preview & confirm -->
+    <div id="ap-step1">
+      <div class="ap-sheet-body">
+        <div class="ap-card-preview">
+          <div class="apc-left">
+            <span class="i i-lg" style="color:var(--gold)"><svg><use href="#ic-card"/></svg></span>
+            <div>
+              <div class="apc-num">**** **** **** 4821</div>
+              <div class="apc-type">VISA PREMIER</div>
+            </div>
+          </div>
+          <span style="font-size:11px;opacity:.5">Expire 09/28</span>
+        </div>
+        <div class="ap-steps">
+          <div class="ap-step"><div class="ap-step-num done"><span class="i i-sm"><svg><use href="#ic-check"/></svg></span></div><div class="ap-step-txt">Carte compatible Apple Pay<span>Visa Premier - Banque Helvetia</span></div></div>
+          <div class="ap-step"><div class="ap-step-num">2</div><div class="ap-step-txt">Verification d'identite<span>Un code de securite sera envoye par SMS</span></div></div>
+          <div class="ap-step"><div class="ap-step-num">3</div><div class="ap-step-txt">Activation<span>Votre carte sera prete a utiliser</span></div></div>
+        </div>
+        <p style="font-size:10px;color:var(--text-3);text-align:center">En continuant, vous acceptez les conditions d'utilisation d'Apple Pay et de Banque Helvetia.</p>
+      </div>
+      <div class="ap-sheet-actions">
+        <button class="btn btn-outline" onclick="closeApplePay()">Annuler</button>
+        <button class="btn" style="background:#000;color:#fff;flex:2" onclick="apStep2()">Continuer</button>
+      </div>
+    </div>
+    <!-- Step 2: SMS Code -->
+    <div id="ap-step2" style="display:none">
+      <div class="ap-sheet-body" style="text-align:center">
+        <div style="width:48px;height:48px;border-radius:12px;background:var(--blue-light);color:var(--blue);display:inline-flex;align-items:center;justify-content:center;margin-bottom:14px"><span class="i i-lg"><svg><use href="#ic-smartphone"/></svg></span></div>
+        <h3 style="font-size:16px;font-weight:800;margin-bottom:4px">Code de verification</h3>
+        <p style="font-size:12px;color:var(--text-2);margin-bottom:20px">Un code a 6 chiffres a ete envoye au<br><strong>+32 6 ** ** *8</strong></p>
+        <div class="ap-code-input" id="ap-code-inputs">
+          <input type="text" maxlength="1" inputmode="numeric" autofocus>
+          <input type="text" maxlength="1" inputmode="numeric">
+          <input type="text" maxlength="1" inputmode="numeric">
+          <input type="text" maxlength="1" inputmode="numeric">
+          <input type="text" maxlength="1" inputmode="numeric">
+          <input type="text" maxlength="1" inputmode="numeric">
+        </div>
+        <p style="font-size:11px;color:var(--text-3)">Code de demo : <strong>482156</strong></p>
+      </div>
+      <div class="ap-sheet-actions">
+        <button class="btn btn-outline" onclick="closeApplePay()">Annuler</button>
+        <button class="btn" style="background:#000;color:#fff;flex:2" onclick="apVerify()">Verifier</button>
+      </div>
+    </div>
+    <!-- Step 3: Activation progress -->
+    <div id="ap-step3" style="display:none">
+      <div class="ap-sheet-body" style="text-align:center">
+        <div style="width:48px;height:48px;border-radius:12px;background:var(--green-light);color:var(--green);display:inline-flex;align-items:center;justify-content:center;margin-bottom:14px"><span class="i i-lg"><svg><use href="#ic-wifi"/></svg></span></div>
+        <h3 style="font-size:16px;font-weight:800;margin-bottom:4px">Activation en cours</h3>
+        <p style="font-size:12px;color:var(--text-2);margin-bottom:8px">Communication avec Apple Pay...</p>
+        <div class="ap-progress"><div class="ap-progress-bar" id="ap-progress-bar"></div></div>
+        <p style="font-size:11px;color:var(--text-3)" id="ap-progress-txt">Verification de la carte...</p>
+      </div>
+    </div>
+    <!-- Step 4: Success -->
+    <div class="ap-success-view" id="ap-step4">
+      <div class="suc-icon"><span class="i i-xl"><svg><use href="#ic-check"/></svg></span></div>
+      <h3>Carte ajoutee a Apple Pay</h3>
+      <p>Votre Visa Premier **** 4821 est maintenant disponible dans l'app Wallet de votre iPhone.<br>Vous pouvez payer en magasin, en ligne et dans les apps.</p>
+      <button class="btn" style="background:#000;color:#fff;width:100%;justify-content:center;padding:12px" onclick="closeApplePay()">Termine</button>
     </div>
   </div>
 </div>
@@ -1060,6 +1224,59 @@ function printReleve(period){
   w.document.close();
   setTimeout(()=>w.print(),300);
 }
+
+// ===== APPLE PAY =====
+let applePayActive=false;
+function openApplePay(){
+  if(applePayActive)return;
+  document.getElementById('modal-applepay').classList.add('active');
+  document.getElementById('ap-step1').style.display='';
+  document.getElementById('ap-step2').style.display='none';
+  document.getElementById('ap-step3').style.display='none';
+  document.getElementById('ap-step4').classList.remove('active');
+  document.body.style.overflow='hidden';
+}
+function closeApplePay(){
+  document.getElementById('modal-applepay').classList.remove('active');
+  document.body.style.overflow='';
+  // Clear code inputs
+  document.querySelectorAll('#ap-code-inputs input').forEach(i=>i.value='');
+}
+function apStep2(){
+  document.getElementById('ap-step1').style.display='none';
+  document.getElementById('ap-step2').style.display='';
+  // Auto-focus first input
+  const inputs=document.querySelectorAll('#ap-code-inputs input');
+  inputs[0].focus();
+  // Auto-advance on input
+  inputs.forEach((inp,i)=>{
+    inp.oninput=()=>{if(inp.value&&i<5)inputs[i+1].focus()};
+    inp.onkeydown=e=>{if(e.key==='Backspace'&&!inp.value&&i>0){inputs[i-1].focus()}};
+  });
+}
+function apVerify(){
+  const code=Array.from(document.querySelectorAll('#ap-code-inputs input')).map(i=>i.value).join('');
+  if(code.length<6){alert('Veuillez entrer le code a 6 chiffres.');return}
+  document.getElementById('ap-step2').style.display='none';
+  document.getElementById('ap-step3').style.display='';
+  // Animate progress
+  const bar=document.getElementById('ap-progress-bar');
+  const txt=document.getElementById('ap-progress-txt');
+  setTimeout(()=>{bar.style.width='30%';txt.textContent='Verification de la carte...'},100);
+  setTimeout(()=>{bar.style.width='60%';txt.textContent='Connexion a Apple Pay...'},1200);
+  setTimeout(()=>{bar.style.width='90%';txt.textContent='Configuration du token securise...'},2400);
+  setTimeout(()=>{
+    bar.style.width='100%';txt.textContent='Termine !';
+    setTimeout(()=>{
+      document.getElementById('ap-step3').style.display='none';
+      document.getElementById('ap-step4').classList.add('active');
+      applePayActive=true;
+      document.getElementById('btn-applepay').style.display='none';
+      document.getElementById('applepay-status').style.display='flex';
+    },500);
+  },3200);
+}
+document.getElementById('modal-applepay').addEventListener('click',e=>{if(e.target===document.getElementById('modal-applepay'))closeApplePay()});
 
 // ===== MODAL CLOSE =====
 document.getElementById('modal-virement').addEventListener('click',e=>{if(e.target===document.getElementById('modal-virement'))closeVirement()});
