@@ -4,1368 +4,1071 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Banque Helvétia - Espace Client</title>
-<meta name="theme-color" content="#0a1628">
+<meta name="theme-color" content="#0b1426">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Helvétia">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/svg+xml" href="icon.svg">
 <link rel="apple-touch-icon" href="icon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  :root {
-    --primary: #0a1628;
-    --accent: #1a6b4a;
-    --accent-light: #e8f5ef;
-    --gold: #b8923e;
-    --gold-light: #faf5eb;
-    --bg: #f4f5f7;
-    --card: #ffffff;
-    --text: #1a1a2e;
-    --text-secondary: #6b7280;
-    --border: #e5e7eb;
-    --red: #dc2626;
-    --green: #16a34a;
-  }
-
-  body {
-    font-family: 'Inter', -apple-system, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-  }
-
-  /* TOP BAR */
-  .topbar {
-    background: var(--primary);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 32px;
-    height: 64px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .topbar-logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 20px;
-    font-weight: 600;
-    letter-spacing: -0.5px;
-  }
-
-  .topbar-logo .logo-icon {
-    width: 36px;
-    height: 36px;
-  }
-
-  .topbar-right {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-  }
-
-  .topbar-right .notif {
-    position: relative;
-    cursor: pointer;
-    font-size: 20px;
-    opacity: 0.8;
-  }
-
-  .notif-badge {
-    position: absolute;
-    top: -4px; right: -6px;
-    background: var(--red);
-    color: white;
-    font-size: 10px;
-    width: 16px; height: 16px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-  }
-
-  .user-pill {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: rgba(255,255,255,0.08);
-    padding: 6px 14px 6px 6px;
-    border-radius: 24px;
-    cursor: pointer;
-  }
-
-  .user-avatar {
-    width: 32px; height: 32px;
-    border-radius: 50%;
-    background: var(--gold);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-    font-size: 13px;
-    color: var(--primary);
-  }
-
-  .user-name { font-size: 13px; font-weight: 500; }
-
-  /* SIDEBAR */
-  .layout {
-    display: flex;
-    min-height: calc(100vh - 64px);
-  }
-
-  .sidebar {
-    width: 240px;
-    background: white;
-    border-right: 1px solid var(--border);
-    padding: 24px 0;
-    flex-shrink: 0;
-  }
-
-  .sidebar-nav { list-style: none; }
-
-  .sidebar-nav li a {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 24px;
-    color: var(--text-secondary);
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-    transition: all 0.15s;
-  }
-
-  .sidebar-nav li a:hover { background: var(--bg); color: var(--text); }
-  .sidebar-nav li a.active {
-    color: var(--accent);
-    background: var(--accent-light);
-    border-right: 3px solid var(--accent);
-  }
-
-  .sidebar-nav li a .icon { font-size: 18px; width: 24px; text-align: center; }
-
-  .sidebar-section {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--text-secondary);
-    padding: 20px 24px 8px;
-    font-weight: 600;
-  }
-
-  /* MAIN */
-  .main {
-    flex: 1;
-    padding: 32px;
-    max-width: 1100px;
-  }
-
-  .page-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 28px;
-  }
-
-  .page-header h1 {
-    font-size: 24px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-  }
-
-  .page-header .date {
-    color: var(--text-secondary);
-    font-size: 13px;
-  }
-
-  /* CARDS */
-  .cards-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    margin-bottom: 28px;
-  }
-
-  .card {
-    background: var(--card);
-    border-radius: 12px;
-    padding: 24px;
-    border: 1px solid var(--border);
-  }
-
-  .card-label {
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: var(--text-secondary);
-    margin-bottom: 8px;
-    font-weight: 600;
-  }
-
-  .card-amount {
-    font-size: 28px;
-    font-weight: 700;
-    letter-spacing: -1px;
-  }
-
-  .card-sub {
-    font-size: 12px;
-    color: var(--text-secondary);
-    margin-top: 6px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-
-  .card-sub .up { color: var(--green); }
-  .card-sub .down { color: var(--red); }
-
-  .card.highlight {
-    background: linear-gradient(135deg, var(--primary) 0%, #162744 100%);
-    color: white;
-    border: none;
-  }
-
-  .card.highlight .card-label { color: rgba(255,255,255,0.6); }
-  .card.highlight .card-sub { color: rgba(255,255,255,0.5); }
-
-  /* ACCOUNT DETAILS BAR */
-  .account-bar {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 28px;
-  }
-
-  .account-info { display: flex; gap: 40px; }
-
-  .account-info-item label {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    color: var(--text-secondary);
-    font-weight: 600;
-  }
-
-  .account-info-item p {
-    font-size: 14px;
-    font-weight: 500;
-    margin-top: 2px;
-    font-variant-numeric: tabular-nums;
-  }
-
-  .btn {
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 600;
-    border: none;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
-  .btn-primary {
-    background: var(--accent);
-    color: white;
-  }
-  .btn-primary:hover { background: #155d3f; }
-
-  .btn-outline {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--text);
-  }
-  .btn-outline:hover { background: var(--bg); }
-
-  .btn-group { display: flex; gap: 10px; }
-
-  /* TABLE */
-  .section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-  }
-
-  .section-header h2 {
-    font-size: 16px;
-    font-weight: 700;
-  }
-
-  .filter-pills {
-    display: flex;
-    gap: 6px;
-  }
-
-  .filter-pill {
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 500;
-    border: 1px solid var(--border);
-    background: white;
-    cursor: pointer;
-    color: var(--text-secondary);
-  }
-
-  .filter-pill.active {
-    background: var(--primary);
-    color: white;
-    border-color: var(--primary);
-  }
-
-  .table-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    overflow: hidden;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  thead th {
-    text-align: left;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: var(--text-secondary);
-    font-weight: 600;
-    padding: 14px 20px;
-    border-bottom: 1px solid var(--border);
-    background: #fafafa;
-  }
-
-  tbody td {
-    padding: 14px 20px;
-    font-size: 14px;
-    border-bottom: 1px solid var(--border);
-    vertical-align: middle;
-  }
-
-  tbody tr:last-child td { border-bottom: none; }
-  tbody tr:hover { background: #fafbfc; }
-
-  .tx-label {
-    font-weight: 500;
-    display: block;
-  }
-
-  .tx-cat {
-    font-size: 12px;
-    color: var(--text-secondary);
-  }
-
-  .tx-amount {
-    font-weight: 600;
-    font-variant-numeric: tabular-nums;
-    text-align: right;
-  }
-
-  .tx-amount.debit { color: var(--text); }
-  .tx-amount.credit { color: var(--green); }
-
-  .tx-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    flex-shrink: 0;
-  }
-
-  .tx-row-info {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .tx-icon.food { background: #fef3c7; }
-  .tx-icon.transport { background: #dbeafe; }
-  .tx-icon.salary { background: #d1fae5; }
-  .tx-icon.shopping { background: #fce7f3; }
-  .tx-icon.housing { background: #e0e7ff; }
-  .tx-icon.transfer { background: #f3e8ff; }
-  .tx-icon.health { background: #fde2e2; }
-  .tx-icon.entertainment { background: #fff7ed; }
-
-  .badge {
-    font-size: 11px;
-    padding: 3px 10px;
-    border-radius: 12px;
-    font-weight: 600;
-  }
-
-  .badge-success { background: #d1fae5; color: #166534; }
-  .badge-pending { background: #fef9c3; color: #854d0e; }
-
-  /* BOTTOM ROW */
-  .bottom-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-top: 28px;
-  }
-
-  .spending-bar {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 14px;
-  }
-
-  .spending-bar-label {
-    font-size: 13px;
-    font-weight: 500;
-    width: 120px;
-    flex-shrink: 0;
-  }
-
-  .spending-bar-track {
-    flex: 1;
-    height: 8px;
-    background: var(--bg);
-    border-radius: 4px;
-    overflow: hidden;
-  }
-
-  .spending-bar-fill {
-    height: 100%;
-    border-radius: 4px;
-    transition: width 0.5s ease;
-  }
-
-  .spending-bar-value {
-    font-size: 13px;
-    font-weight: 600;
-    width: 80px;
-    text-align: right;
-    font-variant-numeric: tabular-nums;
-  }
-
-  .quick-actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-
-  .quick-action {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 16px;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    cursor: pointer;
-    transition: all 0.15s;
-    background: white;
-    text-decoration: none;
-    color: var(--text);
-  }
-
-  .quick-action:hover {
-    border-color: var(--accent);
-    background: var(--accent-light);
-  }
-
-  .quick-action .qa-icon {
-    width: 40px; height: 40px;
-    border-radius: 10px;
-    background: var(--bg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-  }
-
-  .quick-action .qa-text {
-    font-size: 13px;
-    font-weight: 600;
-  }
-
-  .quick-action .qa-sub {
-    font-size: 11px;
-    color: var(--text-secondary);
-  }
-
-  /* FOOTER */
-  .footer {
-    text-align: center;
-    padding: 32px;
-    font-size: 12px;
-    color: var(--text-secondary);
-    border-top: 1px solid var(--border);
-    margin-top: 40px;
-  }
-
-  .footer a { color: var(--accent); text-decoration: none; }
-
-  .secure-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--accent-light);
-    color: var(--accent);
-    padding: 4px 12px;
-    border-radius: 12px;
-    font-size: 11px;
-    font-weight: 600;
-    margin-bottom: 8px;
-  }
-
-  /* MODAL VIREMENT */
-  .modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(10,22,40,0.6);
-    backdrop-filter: blur(4px);
-    z-index: 200;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .modal-overlay.active { display: flex; }
-
-  .modal {
-    background: white;
-    border-radius: 16px;
-    width: 520px;
-    max-width: 95vw;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 24px 48px rgba(0,0,0,0.2);
-    animation: modalIn 0.25s ease;
-  }
-
-  @keyframes modalIn {
-    from { opacity: 0; transform: translateY(20px) scale(0.97); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
-  }
-
-  .modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 24px 28px 0;
-  }
-
-  .modal-header h2 {
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-  }
-
-  .modal-close {
-    width: 32px; height: 32px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: white;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    color: var(--text-secondary);
-    transition: all 0.15s;
-  }
-
-  .modal-close:hover { background: var(--bg); color: var(--text); }
-
-  .modal-body { padding: 24px 28px; }
-
-  .form-group {
-    margin-bottom: 20px;
-  }
-
-  .form-group label {
-    display: block;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 6px;
-  }
-
-  .form-group input,
-  .form-group textarea,
-  .form-group select {
-    width: 100%;
-    padding: 11px 14px;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    font-size: 14px;
-    font-family: 'Inter', sans-serif;
-    color: var(--text);
-    background: white;
-    transition: border-color 0.15s;
-    outline: none;
-  }
-
-  .form-group input:focus,
-  .form-group textarea:focus,
-  .form-group select:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(26,107,74,0.1);
-  }
-
-  .form-group textarea { resize: vertical; min-height: 60px; }
-
-  .form-group .input-hint {
-    font-size: 11px;
-    color: var(--text-secondary);
-    margin-top: 4px;
-  }
-
-  .form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
-
-  .form-summary {
-    background: var(--bg);
-    border-radius: 10px;
-    padding: 16px;
-    margin-bottom: 20px;
-  }
-
-  .form-summary-row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 13px;
-    padding: 4px 0;
-  }
-
-  .form-summary-row.total {
-    border-top: 1px solid var(--border);
-    margin-top: 8px;
-    padding-top: 10px;
-    font-weight: 700;
-    font-size: 15px;
-  }
-
-  .form-summary-row .label { color: var(--text-secondary); }
-
-  .modal-actions {
-    display: flex;
-    gap: 12px;
-    justify-content: flex-end;
-    padding: 0 28px 24px;
-  }
-
-  .btn-lg {
-    padding: 12px 28px;
-    font-size: 14px;
-    border-radius: 10px;
-  }
-
-  /* SUCCESS STATE */
-  .virement-success {
-    display: none;
-    text-align: center;
-    padding: 40px 28px;
-  }
-
-  .virement-success.active { display: block; }
-
-  .success-icon {
-    width: 72px; height: 72px;
-    border-radius: 50%;
-    background: #d1fae5;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 36px;
-    margin-bottom: 20px;
-    animation: successPop 0.4s ease;
-  }
-
-  @keyframes successPop {
-    0% { transform: scale(0); }
-    50% { transform: scale(1.2); }
-    100% { transform: scale(1); }
-  }
-
-  .virement-success h3 {
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 8px;
-    color: var(--accent);
-  }
-
-  .virement-success p {
-    font-size: 14px;
-    color: var(--text-secondary);
-    margin-bottom: 24px;
-  }
-
-  /* CONFIRMATION STEP */
-  .step-form { display: block; }
-  .step-confirm { display: none; }
-  .step-confirm.active { display: block; }
-  .step-form.hidden { display: none; }
-
-  .confirm-details {
-    text-align: left;
-    background: var(--bg);
-    border-radius: 12px;
-    padding: 20px;
-    margin: 20px 28px;
-  }
-
-  .confirm-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 0;
-    font-size: 14px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .confirm-row:last-child { border-bottom: none; }
-  .confirm-row .cr-label { color: var(--text-secondary); font-weight: 500; }
-  .confirm-row .cr-value { font-weight: 600; text-align: right; }
-
-  .confirm-amount {
-    text-align: center;
-    font-size: 32px;
-    font-weight: 700;
-    color: var(--text);
-    margin: 24px 0 8px;
-  }
-
-  .confirm-sub {
-    text-align: center;
-    font-size: 13px;
-    color: var(--text-secondary);
-    margin-bottom: 16px;
-  }
-
-  .security-notice {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: var(--accent-light);
-    padding: 12px 16px;
-    border-radius: 10px;
-    margin: 0 28px 20px;
-    font-size: 12px;
-    color: var(--accent);
-    font-weight: 500;
-  }
-
-  /* RESPONSIVE */
-  @media (max-width: 900px) {
-    .sidebar { display: none; }
-    .cards-row { grid-template-columns: 1fr; }
-    .bottom-row { grid-template-columns: 1fr; }
-    .account-bar { flex-direction: column; gap: 16px; align-items: flex-start; }
-    .account-info { flex-wrap: wrap; gap: 20px; }
-    .page-header { flex-direction: column; gap: 16px; align-items: flex-start; }
-    .main { padding: 20px; }
-    .topbar { padding: 0 16px; }
-    .topbar-logo { font-size: 16px; }
-    .user-name { display: none; }
-  }
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#0b1426;--navy-light:#122040;--navy-mid:#1a2d52;
+  --gold:#c9a84c;--gold-light:#f5eed8;--gold-dim:rgba(201,168,76,.12);
+  --green:#1b7a50;--green-light:#e6f4ed;--green-dark:#145c3c;
+  --bg:#f0f2f5;--card:#fff;--card-hover:#fafbfc;
+  --text:#111827;--text-2:#6b7280;--text-3:#9ca3af;
+  --border:#e5e7eb;--border-light:#f3f4f6;
+  --red:#dc2626;--red-light:#fef2f2;
+  --blue:#2563eb;--blue-light:#eff6ff;
+  --purple:#7c3aed;--purple-light:#f5f3ff;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.05);
+  --shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:0 4px 6px -1px rgba(0,0,0,.08),0 2px 4px -2px rgba(0,0,0,.04);
+  --shadow-lg:0 10px 15px -3px rgba(0,0,0,.08),0 4px 6px -4px rgba(0,0,0,.04);
+  --shadow-xl:0 20px 25px -5px rgba(0,0,0,.1),0 8px 10px -6px rgba(0,0,0,.06);
+  --radius:10px;--radius-lg:14px;--radius-xl:18px;
+}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit;cursor:pointer}
+input,select,textarea{font-family:inherit}
+
+/* ICONS - SVG sprite system */
+.i{display:inline-flex;width:20px;height:20px;flex-shrink:0}
+.i svg{width:100%;height:100%;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.i-sm{width:16px;height:16px}
+.i-lg{width:24px;height:24px}
+.i-xl{width:32px;height:32px}
+
+/* TOPBAR */
+.topbar{
+  background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);
+  color:#fff;display:flex;align-items:center;justify-content:space-between;
+  padding:0 28px;height:60px;position:sticky;top:0;z-index:100;
+  box-shadow:0 2px 8px rgba(0,0,0,.15);
+}
+.topbar-logo{display:flex;align-items:center;gap:11px;font-size:17px;font-weight:700;letter-spacing:-.3px}
+.topbar-logo svg.logo-mark{width:32px;height:32px}
+.topbar-right{display:flex;align-items:center;gap:8px}
+.tb-btn{
+  width:36px;height:36px;border-radius:8px;border:none;
+  background:rgba(255,255,255,.06);color:rgba(255,255,255,.7);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;transition:all .15s;
+}
+.tb-btn:hover{background:rgba(255,255,255,.12);color:#fff}
+.tb-btn .badge-dot{
+  position:absolute;top:6px;right:6px;width:8px;height:8px;
+  border-radius:50%;background:var(--red);border:2px solid var(--navy);
+}
+.user-pill{
+  display:flex;align-items:center;gap:9px;
+  background:rgba(255,255,255,.06);padding:4px 14px 4px 4px;
+  border-radius:20px;cursor:pointer;transition:all .15s;border:none;color:#fff;
+}
+.user-pill:hover{background:rgba(255,255,255,.12)}
+.user-av{
+  width:30px;height:30px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),#e0c56a);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:11px;color:var(--navy);
+}
+.user-pill span{font-size:13px;font-weight:500}
+
+/* LAYOUT */
+.layout{display:flex;min-height:calc(100vh - 60px)}
+
+/* SIDEBAR */
+.sidebar{
+  width:232px;background:var(--card);border-right:1px solid var(--border);
+  padding:20px 0;flex-shrink:0;display:flex;flex-direction:column;
+}
+.sb-section{
+  font-size:10px;text-transform:uppercase;letter-spacing:1.2px;
+  color:var(--text-3);padding:16px 20px 6px;font-weight:700;
+}
+.sb-nav{list-style:none}
+.sb-nav li a{
+  display:flex;align-items:center;gap:11px;padding:9px 20px;
+  color:var(--text-2);font-size:13px;font-weight:500;
+  transition:all .15s;border-left:3px solid transparent;
+}
+.sb-nav li a:hover{background:var(--bg);color:var(--text)}
+.sb-nav li a.active{
+  color:var(--green);background:var(--green-light);
+  border-left-color:var(--green);font-weight:600;
+}
+.sb-nav li a .i{color:currentColor}
+.sb-footer{margin-top:auto;padding:16px 20px;border-top:1px solid var(--border)}
+.sb-footer p{font-size:10px;color:var(--text-3);line-height:1.5}
+
+/* MAIN */
+.main{flex:1;padding:28px;max-width:1080px;overflow-x:hidden}
+
+/* SECTIONS (SPA pages) */
+.section{display:none;animation:fadeUp .3s ease}
+.section.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* PAGE HEADER */
+.pg-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+.pg-header h1{font-size:22px;font-weight:800;letter-spacing:-.5px}
+.pg-header .sub{color:var(--text-2);font-size:12px;margin-top:2px}
+.btn{
+  padding:9px 18px;border-radius:var(--radius);font-size:13px;font-weight:600;
+  border:none;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:7px;
+}
+.btn-primary{background:var(--green);color:#fff}
+.btn-primary:hover{background:var(--green-dark);box-shadow:var(--shadow-md)}
+.btn-outline{background:#fff;border:1px solid var(--border);color:var(--text)}
+.btn-outline:hover{background:var(--bg);border-color:var(--text-3)}
+.btn-danger{background:var(--red);color:#fff}
+.btn-danger:hover{background:#b91c1c}
+.btn-gold{background:linear-gradient(135deg,var(--gold),#dbb85c);color:var(--navy);font-weight:700}
+.btn-gold:hover{box-shadow:0 4px 12px rgba(201,168,76,.35)}
+.btn-sm{padding:6px 12px;font-size:12px;border-radius:8px}
+.btn-group{display:flex;gap:8px}
+
+/* CARDS */
+.cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+.crd{
+  background:var(--card);border-radius:var(--radius-lg);padding:22px;
+  border:1px solid var(--border);transition:all .2s;position:relative;overflow:hidden;
+}
+.crd:hover{box-shadow:var(--shadow-md);border-color:var(--text-3)}
+.crd-label{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--text-2);margin-bottom:6px;font-weight:600}
+.crd-amount{font-size:26px;font-weight:800;letter-spacing:-1px}
+.crd-sub{font-size:11px;color:var(--text-2);margin-top:5px;display:flex;align-items:center;gap:4px}
+.crd-sub .up{color:var(--green);font-weight:600}
+.crd.premium{
+  background:linear-gradient(135deg,var(--navy) 0%,var(--navy-mid) 100%);
+  color:#fff;border:none;box-shadow:var(--shadow-lg);
+}
+.crd.premium::after{
+  content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;
+  border-radius:50%;background:rgba(201,168,76,.08);
+}
+.crd.premium .crd-label{color:rgba(255,255,255,.5)}
+.crd.premium .crd-sub{color:rgba(255,255,255,.4)}
+
+/* ACCOUNT BAR */
+.acct-bar{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);
+  padding:18px 22px;display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;
+}
+.acct-info{display:flex;gap:32px}
+.acct-info-item label{font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--text-3);font-weight:700}
+.acct-info-item p{font-size:13px;font-weight:600;margin-top:1px;font-variant-numeric:tabular-nums}
+
+/* TABLE */
+.sec-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.sec-header h2{font-size:15px;font-weight:700}
+.pills{display:flex;gap:4px}
+.pill{
+  padding:5px 12px;border-radius:16px;font-size:11px;font-weight:600;
+  border:1px solid var(--border);background:#fff;cursor:pointer;color:var(--text-2);transition:all .15s;
+}
+.pill.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.pill:hover:not(.active){background:var(--bg)}
+.tbl-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-sm)}
+table{width:100%;border-collapse:collapse}
+thead th{
+  text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.8px;
+  color:var(--text-3);font-weight:700;padding:12px 18px;border-bottom:1px solid var(--border);background:var(--border-light);
+}
+tbody td{padding:12px 18px;font-size:13px;border-bottom:1px solid var(--border-light);vertical-align:middle}
+tbody tr:last-child td{border-bottom:none}
+tbody tr{transition:background .1s}
+tbody tr:hover{background:var(--card-hover)}
+.tx-row{display:flex;align-items:center;gap:11px}
+.tx-ic{
+  width:34px;height:34px;border-radius:9px;display:flex;
+  align-items:center;justify-content:center;flex-shrink:0;
+}
+.tx-ic.food{background:#fef3c7;color:#d97706}
+.tx-ic.transport{background:#dbeafe;color:#2563eb}
+.tx-ic.salary{background:#d1fae5;color:#059669}
+.tx-ic.shopping{background:#fce7f3;color:#db2777}
+.tx-ic.housing{background:#e0e7ff;color:#4f46e5}
+.tx-ic.transfer{background:#f3e8ff;color:#7c3aed}
+.tx-ic.health{background:#fde2e2;color:#dc2626}
+.tx-ic.entertainment{background:#fff7ed;color:#ea580c}
+.tx-ic.insurance{background:#ecfdf5;color:#059669}
+.tx-name{font-weight:600;font-size:13px;display:block}
+.tx-desc{font-size:11px;color:var(--text-3)}
+.tx-amt{font-weight:700;font-variant-numeric:tabular-nums;text-align:right;font-size:13px}
+.tx-amt.debit{color:var(--text)}
+.tx-amt.credit{color:var(--green)}
+.badge{font-size:10px;padding:3px 9px;border-radius:10px;font-weight:700}
+.badge-ok{background:var(--green-light);color:var(--green)}
+.badge-pending{background:#fef9c3;color:#854d0e}
+.badge-fail{background:var(--red-light);color:var(--red)}
+
+/* SPENDING BARS */
+.sp-bar{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.sp-bar-label{font-size:12px;font-weight:600;width:100px;flex-shrink:0}
+.sp-bar-track{flex:1;height:7px;background:var(--bg);border-radius:4px;overflow:hidden}
+.sp-bar-fill{height:100%;border-radius:4px}
+.sp-bar-val{font-size:12px;font-weight:700;width:80px;text-align:right;font-variant-numeric:tabular-nums}
+
+/* QUICK ACTIONS */
+.qa-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.qa{
+  display:flex;align-items:center;gap:11px;padding:14px;
+  border-radius:var(--radius);border:1px solid var(--border);
+  cursor:pointer;transition:all .15s;background:#fff;
+}
+.qa:hover{border-color:var(--green);background:var(--green-light)}
+.qa-ic{
+  width:38px;height:38px;border-radius:var(--radius);background:var(--bg);
+  display:flex;align-items:center;justify-content:center;color:var(--text-2);
+}
+.qa:hover .qa-ic{color:var(--green);background:var(--green-light)}
+.qa-txt{font-size:13px;font-weight:700}
+.qa-sub{font-size:10px;color:var(--text-3)}
+
+/* VISA CARD */
+.visa-card{
+  background:linear-gradient(135deg,var(--navy) 0%,var(--navy-mid) 50%,var(--navy) 100%);
+  color:#fff;border-radius:var(--radius-xl);padding:24px;max-width:400px;
+  position:relative;overflow:hidden;box-shadow:var(--shadow-xl);
+}
+.visa-card::before{content:'';position:absolute;top:-30px;right:-30px;width:110px;height:110px;border-radius:50%;background:rgba(201,168,76,.1)}
+.visa-card::after{content:'';position:absolute;bottom:-20px;right:40px;width:80px;height:80px;border-radius:50%;background:rgba(201,168,76,.06)}
+.visa-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+.visa-brand{font-size:13px;font-weight:700;letter-spacing:.8px}
+.visa-type{font-size:10px;background:var(--gold-dim);color:var(--gold);padding:3px 10px;border-radius:8px;font-weight:700;letter-spacing:.5px}
+.visa-num{font-size:18px;letter-spacing:3.5px;font-weight:500;margin-bottom:22px;font-variant-numeric:tabular-nums}
+.visa-bottom{display:flex;justify-content:space-between;align-items:flex-end}
+.visa-label{font-size:9px;text-transform:uppercase;letter-spacing:1px;opacity:.4;margin-bottom:2px}
+.visa-val{font-size:13px;font-weight:700}
+
+/* MODAL */
+.modal-ov{
+  display:none;position:fixed;inset:0;background:rgba(11,20,38,.65);
+  backdrop-filter:blur(6px);z-index:200;justify-content:center;align-items:center;
+}
+.modal-ov.active{display:flex}
+.modal{
+  background:#fff;border-radius:var(--radius-xl);width:500px;max-width:95vw;
+  max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-xl);animation:mIn .25s ease;
+}
+@keyframes mIn{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:none}}
+.modal-hdr{display:flex;justify-content:space-between;align-items:center;padding:22px 24px 0}
+.modal-hdr h2{font-size:18px;font-weight:800;display:flex;align-items:center;gap:8px}
+.modal-close{
+  width:30px;height:30px;border-radius:8px;border:1px solid var(--border);
+  background:#fff;display:flex;align-items:center;justify-content:center;
+  color:var(--text-2);transition:all .15s;
+}
+.modal-close:hover{background:var(--bg);color:var(--text)}
+.modal-body{padding:20px 24px}
+.fg{margin-bottom:16px}
+.fg label{display:block;font-size:12px;font-weight:700;color:var(--text);margin-bottom:5px}
+.fg input,.fg textarea,.fg select{
+  width:100%;padding:10px 13px;border:1px solid var(--border);border-radius:var(--radius);
+  font-size:13px;color:var(--text);background:#fff;transition:border .15s;outline:none;
+}
+.fg input:focus,.fg textarea:focus,.fg select:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(27,122,80,.08)}
+.fg textarea{resize:vertical;min-height:56px}
+.fg .hint{font-size:10px;color:var(--text-3);margin-top:3px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;padding:0 24px 22px}
+
+/* CONFIRM */
+.confirm-amt{text-align:center;font-size:30px;font-weight:800;margin:20px 0 4px}
+.confirm-sub{text-align:center;font-size:12px;color:var(--text-2);margin-bottom:14px}
+.confirm-box{background:var(--bg);border-radius:var(--radius);padding:16px;margin:0 24px 16px}
+.cr-row{display:flex;justify-content:space-between;padding:6px 0;font-size:13px;border-bottom:1px solid var(--border-light)}
+.cr-row:last-child{border:none}
+.cr-label{color:var(--text-2);font-weight:500}
+.cr-val{font-weight:700;text-align:right}
+.sec-notice{
+  display:flex;align-items:center;gap:8px;background:var(--green-light);
+  padding:10px 14px;border-radius:var(--radius);margin:0 24px 18px;
+  font-size:11px;color:var(--green);font-weight:600;
+}
+
+/* SUCCESS */
+.v-success{display:none;text-align:center;padding:36px 24px}
+.v-success.active{display:block}
+.suc-icon{
+  width:64px;height:64px;border-radius:50%;background:var(--green-light);
+  display:inline-flex;align-items:center;justify-content:center;
+  color:var(--green);margin-bottom:16px;animation:pop .4s ease;
+}
+@keyframes pop{0%{transform:scale(0)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
+.v-success h3{font-size:17px;font-weight:800;color:var(--green);margin-bottom:6px}
+.v-success p{font-size:13px;color:var(--text-2);margin-bottom:18px}
+.step{display:block}.step.hidden{display:none}
+
+/* NOTIF DROPDOWN */
+.notif-drop{
+  position:absolute;top:50px;right:0;width:340px;background:#fff;
+  border-radius:var(--radius-lg);box-shadow:var(--shadow-xl);border:1px solid var(--border);
+  display:none;z-index:300;overflow:hidden;
+}
+.notif-drop.show{display:block;animation:mIn .2s ease}
+.notif-hdr{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.notif-hdr h3{font-size:14px;font-weight:800}
+.notif-item{
+  padding:12px 16px;border-bottom:1px solid var(--border-light);display:flex;gap:10px;
+  transition:background .1s;cursor:pointer;
+}
+.notif-item:hover{background:var(--card-hover)}
+.notif-item:last-child{border:none}
+.notif-ic{
+  width:34px;height:34px;border-radius:9px;display:flex;
+  align-items:center;justify-content:center;flex-shrink:0;
+}
+.notif-ic.green{background:var(--green-light);color:var(--green)}
+.notif-ic.blue{background:var(--blue-light);color:var(--blue)}
+.notif-ic.gold{background:var(--gold-light);color:var(--gold)}
+.notif-ic.red{background:var(--red-light);color:var(--red)}
+.notif-txt{font-size:12px;font-weight:500;line-height:1.4}
+.notif-time{font-size:10px;color:var(--text-3);margin-top:2px}
+
+/* MESSAGES */
+.msg-layout{display:grid;grid-template-columns:280px 1fr;gap:0;border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;background:#fff;min-height:500px}
+.msg-list{border-right:1px solid var(--border);overflow-y:auto}
+.msg-item{padding:14px 16px;border-bottom:1px solid var(--border-light);cursor:pointer;transition:all .1s}
+.msg-item:hover{background:var(--card-hover)}
+.msg-item.active{background:var(--green-light);border-left:3px solid var(--green)}
+.msg-from{font-size:13px;font-weight:700}
+.msg-preview{font-size:11px;color:var(--text-3);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.msg-date{font-size:10px;color:var(--text-3);margin-top:3px}
+.msg-content{padding:24px;display:flex;flex-direction:column}
+.msg-content-hdr{border-bottom:1px solid var(--border);padding-bottom:16px;margin-bottom:16px}
+.msg-content-hdr h3{font-size:16px;font-weight:800}
+.msg-content-hdr .msg-meta{font-size:11px;color:var(--text-2);margin-top:4px}
+.msg-bubble{font-size:13px;line-height:1.7;color:var(--text)}
+.msg-reply{margin-top:auto;padding-top:16px;border-top:1px solid var(--border);display:flex;gap:8px}
+.msg-reply input{flex:1;padding:10px 13px;border:1px solid var(--border);border-radius:var(--radius);font-size:13px;outline:none}
+.msg-reply input:focus{border-color:var(--green)}
+
+/* SETTINGS */
+.setting-group{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);margin-bottom:16px;overflow:hidden}
+.setting-group-hdr{padding:16px 20px;border-bottom:1px solid var(--border);font-size:14px;font-weight:800;display:flex;align-items:center;gap:8px}
+.setting-row{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid var(--border-light)}
+.setting-row:last-child{border:none}
+.setting-row .sr-label{font-size:13px;font-weight:600}
+.setting-row .sr-val{font-size:13px;color:var(--text-2)}
+.toggle{
+  width:42px;height:24px;border-radius:12px;background:var(--border);
+  position:relative;cursor:pointer;transition:background .2s;border:none;
+}
+.toggle.on{background:var(--green)}
+.toggle::after{
+  content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;
+  border-radius:50%;background:#fff;box-shadow:var(--shadow-sm);transition:transform .2s;
+}
+.toggle.on::after{transform:translateX(18px)}
+
+/* INSURANCE CARDS */
+.ins-card{
+  background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);
+  padding:20px;display:flex;gap:16px;align-items:center;margin-bottom:12px;transition:all .15s;
+}
+.ins-card:hover{box-shadow:var(--shadow-md)}
+.ins-ic{width:44px;height:44px;border-radius:var(--radius);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* INVEST */
+.inv-chart{
+  background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);
+  padding:24px;margin-bottom:16px;position:relative;
+}
+.chart-bars{display:flex;align-items:flex-end;gap:6px;height:180px;padding-top:20px}
+.chart-bar{
+  flex:1;border-radius:4px 4px 0 0;transition:all .3s ease;cursor:pointer;position:relative;
+}
+.chart-bar:hover{opacity:.8}
+.chart-bar .cb-tip{
+  display:none;position:absolute;top:-28px;left:50%;transform:translateX(-50%);
+  background:var(--navy);color:#fff;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:700;white-space:nowrap;
+}
+.chart-bar:hover .cb-tip{display:block}
+.chart-labels{display:flex;gap:6px;margin-top:8px}
+.chart-labels span{flex:1;text-align:center;font-size:10px;color:var(--text-3);font-weight:600}
+
+/* BOTTOM ROW */
+.bottom-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px}
+
+/* FOOTER */
+.footer{text-align:center;padding:28px;font-size:11px;color:var(--text-3);border-top:1px solid var(--border);margin-top:32px}
+.footer a{color:var(--green)}
+.sec-badge{
+  display:inline-flex;align-items:center;gap:5px;background:var(--green-light);
+  color:var(--green);padding:3px 10px;border-radius:10px;font-size:10px;font-weight:700;margin-bottom:6px;
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .sidebar{display:none}
+  .cards-grid{grid-template-columns:1fr}
+  .bottom-row{grid-template-columns:1fr}
+  .acct-bar{flex-direction:column;gap:14px;align-items:flex-start}
+  .acct-info{flex-wrap:wrap;gap:16px}
+  .pg-header{flex-direction:column;gap:12px;align-items:flex-start}
+  .main{padding:18px}
+  .topbar{padding:0 14px}
+  .topbar-logo{font-size:15px}
+  .user-pill span{display:none}
+  .msg-layout{grid-template-columns:1fr}
+  .msg-content{display:none}
+}
+
+/* PRINT / PDF */
+@media print{
+  .topbar,.sidebar,.btn,.btn-group,.qa-grid,.modal-ov,.pills,.pg-header .btn-group{display:none!important}
+  .main{padding:0;max-width:100%}
+  .section{display:block!important;page-break-inside:avoid}
+  .crd{box-shadow:none;border:1px solid #ccc}
+  body{background:#fff}
+}
 </style>
 </head>
 <body>
 
-<!-- TOP BAR -->
+<!-- SVG ICON DEFS (hidden) -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <symbol id="ic-home" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></symbol>
+  <symbol id="ic-wallet" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/><circle cx="18" cy="15" r="1"/></symbol>
+  <symbol id="ic-transfer" viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></symbol>
+  <symbol id="ic-card" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></symbol>
+  <symbol id="ic-chart" viewBox="0 0 24 24"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></symbol>
+  <symbol id="ic-pie" viewBox="0 0 24 24"><path d="M21.21 15.89A10 10 0 118 2.83"/><path d="M22 12A10 10 0 0012 2v10z"/></symbol>
+  <symbol id="ic-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
+  <symbol id="ic-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></symbol>
+  <symbol id="ic-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></symbol>
+  <symbol id="ic-bell" viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></symbol>
+  <symbol id="ic-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></symbol>
+  <symbol id="ic-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></symbol>
+  <symbol id="ic-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></symbol>
+  <symbol id="ic-message" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></symbol>
+  <symbol id="ic-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
+  <symbol id="ic-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></symbol>
+  <symbol id="ic-x" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+  <symbol id="ic-plus" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></symbol>
+  <symbol id="ic-arrow-right" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></symbol>
+  <symbol id="ic-arrow-up" viewBox="0 0 24 24"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></symbol>
+  <symbol id="ic-doc" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></symbol>
+  <symbol id="ic-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="ic-trending" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></symbol>
+  <symbol id="ic-file" viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/></symbol>
+  <symbol id="ic-coffee" viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></symbol>
+  <symbol id="ic-car" viewBox="0 0 24 24"><path d="M5 17h14v-5H5z"/><path d="M2 17h1V12l3-7h12l3 7v5h1"/><circle cx="7.5" cy="17" r="2"/><circle cx="16.5" cy="17" r="2"/></symbol>
+  <symbol id="ic-heart" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></symbol>
+  <symbol id="ic-bag" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></symbol>
+  <symbol id="ic-home2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></symbol>
+  <symbol id="ic-zap" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></symbol>
+  <symbol id="ic-film" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/></symbol>
+  <symbol id="ic-printer" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></symbol>
+  <symbol id="ic-eye" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="ic-eye-off" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></symbol>
+  <symbol id="ic-dollar" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></symbol>
+  <symbol id="ic-inbox" viewBox="0 0 24 24"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0016.76 4H7.24a2 2 0 00-1.79 1.11z"/></symbol>
+  <symbol id="ic-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></symbol>
+</svg>
+
 <div class="topbar">
   <div class="topbar-logo">
-    <svg class="logo-icon" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="bg-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0a1628"/><stop offset="100%" stop-color="#162744"/></linearGradient>
-        <linearGradient id="gold-g" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#d4aa4f"/><stop offset="100%" stop-color="#b8923e"/></linearGradient>
-      </defs>
-      <path d="M256 28 L462 120 C462 120 472 310 256 484 C40 310 50 120 50 120 Z" fill="url(#bg-g)" stroke="#b8923e" stroke-width="8"/>
-      <path d="M256 60 L432 140 C432 140 440 300 256 452 C72 300 80 140 80 140 Z" fill="none" stroke="#b8923e" stroke-width="2" opacity="0.3"/>
-      <rect x="120" y="240" width="272" height="3" rx="1.5" fill="url(#gold-g)" opacity="0.5"/>
-      <text x="256" y="230" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-size="140" font-weight="bold" fill="url(#gold-g)" letter-spacing="-5">BH</text>
-      <text x="256" y="295" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-size="32" fill="#b8923e" letter-spacing="12" opacity="0.8">HELVÉTIA</text>
-      <path d="M256 340 L260 350 L270 350 L262 356 L265 366 L256 360 L247 366 L250 356 L242 350 L252 350 Z" fill="#b8923e" opacity="0.6"/>
+    <svg class="logo-mark" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0b1426"/><stop offset="100%" stop-color="#1a2d52"/></linearGradient><linearGradient id="g2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#d4aa4f"/><stop offset="100%" stop-color="#b8923e"/></linearGradient></defs>
+      <path d="M256 28L462 120C462 120 472 310 256 484 40 310 50 120 50 120Z" fill="url(#g1)" stroke="#c9a84c" stroke-width="8"/>
+      <rect x="120" y="240" width="272" height="3" rx="1.5" fill="url(#g2)" opacity=".5"/>
+      <text x="256" y="230" text-anchor="middle" font-family="Georgia,serif" font-size="140" font-weight="bold" fill="url(#g2)" letter-spacing="-5">BH</text>
+      <text x="256" y="295" text-anchor="middle" font-family="Georgia,serif" font-size="32" fill="#c9a84c" letter-spacing="12" opacity=".8">HELVÉTIA</text>
     </svg>
     Banque Helvétia
   </div>
   <div class="topbar-right">
-    <div class="notif">
-      &#128276;
-      <div class="notif-badge">3</div>
+    <button class="tb-btn" onclick="toggleSearch()" title="Recherche"><span class="i"><svg><use href="#ic-search"/></svg></span></button>
+    <div style="position:relative">
+      <button class="tb-btn" onclick="toggleNotifs()" title="Notifications" id="btn-notif">
+        <span class="i"><svg><use href="#ic-bell"/></svg></span>
+        <span class="badge-dot" id="notif-dot"></span>
+      </button>
+      <div class="notif-drop" id="notif-drop">
+        <div class="notif-hdr"><h3>Notifications</h3><button class="btn btn-sm btn-outline" onclick="clearNotifs()">Tout lire</button></div>
+        <div id="notif-list">
+          <div class="notif-item"><div class="notif-ic green"><span class="i i-sm"><svg><use href="#ic-check"/></svg></span></div><div><div class="notif-txt">Virement de 3 420,00 EUR recu de Nextera Solutions</div><div class="notif-time">Il y a 2 heures</div></div></div>
+          <div class="notif-item"><div class="notif-ic blue"><span class="i i-sm"><svg><use href="#ic-shield"/></svg></span></div><div><div class="notif-txt">Authentification forte activee sur votre compte</div><div class="notif-time">Hier, 14:32</div></div></div>
+          <div class="notif-item"><div class="notif-ic gold"><span class="i i-sm"><svg><use href="#ic-trending"/></svg></span></div><div><div class="notif-txt">Votre assurance vie a progresse de +5,1% ce trimestre</div><div class="notif-time">12 avr. 2026</div></div></div>
+          <div class="notif-item"><div class="notif-ic red"><span class="i i-sm"><svg><use href="#ic-bell"/></svg></span></div><div><div class="notif-txt">Prelevement MAIF de 89,00 EUR effectue</div><div class="notif-time">10 avr. 2026</div></div></div>
+        </div>
+      </div>
     </div>
-    <div class="user-pill">
-      <div class="user-avatar">MR</div>
-      <span class="user-name">Morgan Reichert</span>
-    </div>
+    <button class="user-pill" onclick="nav('parametres')">
+      <div class="user-av">MR</div>
+      <span>Morgan Reichert</span>
+    </button>
   </div>
 </div>
 
 <div class="layout">
-  <!-- SIDEBAR -->
-  <nav class="sidebar">
-    <div class="sidebar-section">Principal</div>
-    <ul class="sidebar-nav">
-      <li><a href="#" class="active"><span class="icon">&#127968;</span> Tableau de bord</a></li>
-      <li><a href="#"><span class="icon">&#128179;</span> Comptes</a></li>
-      <li><a href="#" onclick="openVirement();return false"><span class="icon">&#128257;</span> Virements</a></li>
-      <li><a href="#"><span class="icon">&#128176;</span> Cartes</a></li>
-    </ul>
-    <div class="sidebar-section">Services</div>
-    <ul class="sidebar-nav">
-      <li><a href="#"><span class="icon">&#128200;</span> Investissements</a></li>
-      <li><a href="#"><span class="icon">&#128202;</span> Budget</a></li>
-      <li><a href="#"><span class="icon">&#128274;</span> Assurances</a></li>
-      <li><a href="#"><span class="icon">&#128172;</span> Messages</a></li>
-    </ul>
-    <div class="sidebar-section">Compte</div>
-    <ul class="sidebar-nav">
-      <li><a href="#"><span class="icon">&#9881;</span> Paramètres</a></li>
-      <li><a href="#"><span class="icon">&#128682;</span> Déconnexion</a></li>
-    </ul>
-  </nav>
+<nav class="sidebar">
+  <div class="sb-section">Principal</div>
+  <ul class="sb-nav" id="sb-nav">
+    <li><a href="#" data-page="dashboard" class="active"><span class="i"><svg><use href="#ic-home"/></svg></span>Tableau de bord</a></li>
+    <li><a href="#" data-page="comptes"><span class="i"><svg><use href="#ic-wallet"/></svg></span>Comptes</a></li>
+    <li><a href="#" data-page="virements"><span class="i"><svg><use href="#ic-transfer"/></svg></span>Virements</a></li>
+    <li><a href="#" data-page="cartes"><span class="i"><svg><use href="#ic-card"/></svg></span>Cartes</a></li>
+  </ul>
+  <div class="sb-section">Services</div>
+  <ul class="sb-nav">
+    <li><a href="#" data-page="investissements"><span class="i"><svg><use href="#ic-trending"/></svg></span>Investissements</a></li>
+    <li><a href="#" data-page="budget"><span class="i"><svg><use href="#ic-pie"/></svg></span>Budget</a></li>
+    <li><a href="#" data-page="assurances"><span class="i"><svg><use href="#ic-shield"/></svg></span>Assurances</a></li>
+    <li><a href="#" data-page="messages"><span class="i"><svg><use href="#ic-message"/></svg></span>Messages</a></li>
+  </ul>
+  <div class="sb-section">Compte</div>
+  <ul class="sb-nav">
+    <li><a href="#" data-page="parametres"><span class="i"><svg><use href="#ic-settings"/></svg></span>Parametres</a></li>
+    <li><a href="#" data-page="releves"><span class="i"><svg><use href="#ic-doc"/></svg></span>Releves</a></li>
+    <li><a href="#" onclick="event.preventDefault()"><span class="i"><svg><use href="#ic-logout"/></svg></span>Deconnexion</a></li>
+  </ul>
+  <div class="sb-footer"><p>Banque Helvetia S.A.<br>Agrement ACPR n&deg; 18206</p></div>
+</nav>
 
-  <!-- MAIN CONTENT -->
-  <main class="main">
-    <div class="page-header">
-      <div>
-        <h1>Bonjour, Morgan</h1>
-        <p class="date">Mardi 15 avril 2026 &middot; Dernière connexion : aujourd'hui à 09:14</p>
-      </div>
-      <div class="btn-group">
-        <button class="btn btn-outline">&#128196; Relevés</button>
-        <button class="btn btn-primary" onclick="openVirement()">+ Nouveau virement</button>
+<main class="main">
+
+<!-- ===== DASHBOARD ===== -->
+<div class="section active" id="page-dashboard">
+  <div class="pg-header">
+    <div><h1>Bonjour, Morgan</h1><p class="sub">Mardi 15 avril 2026 &middot; Derniere connexion : aujourd'hui a 09:14</p></div>
+    <div class="btn-group">
+      <button class="btn btn-outline" onclick="nav('releves')"><span class="i i-sm"><svg><use href="#ic-download"/></svg></span>Releves</button>
+      <button class="btn btn-primary" onclick="openVirement()"><span class="i i-sm"><svg><use href="#ic-plus"/></svg></span>Nouveau virement</button>
+    </div>
+  </div>
+
+  <div class="cards-grid">
+    <div class="crd premium">
+      <div class="crd-label">Solde disponible</div>
+      <div class="crd-amount" id="solde-display">12 847,63 &euro;</div>
+      <div class="crd-sub"><span class="up"><span class="i i-sm"><svg><use href="#ic-arrow-up"/></svg></span>+2,4%</span> vs. mois dernier</div>
+    </div>
+    <div class="crd">
+      <div class="crd-label">Livret A</div>
+      <div class="crd-amount">34 210,00 &euro;</div>
+      <div class="crd-sub">Taux : 3,00% &middot; Interets 2025 : +987,20 &euro;</div>
+    </div>
+    <div class="crd">
+      <div class="crd-label">Assurance Vie</div>
+      <div class="crd-amount">67 530,45 &euro;</div>
+      <div class="crd-sub"><span class="up"><span class="i i-sm"><svg><use href="#ic-arrow-up"/></svg></span>+5,1%</span> rendement annuel</div>
+    </div>
+  </div>
+
+  <div class="acct-bar">
+    <div class="acct-info">
+      <div class="acct-info-item"><label>Titulaire</label><p>Morgan Reichert</p></div>
+      <div class="acct-info-item"><label>IBAN</label><p>FR76 1820 6004 1172 8394 5600 147</p></div>
+      <div class="acct-info-item"><label>BIC</label><p>BHELFR2XXXX</p></div>
+      <div class="acct-info-item"><label>Type</label><p>Compte courant</p></div>
+    </div>
+    <button class="btn btn-outline btn-sm" onclick="copyIban()"><span class="i i-sm"><svg><use href="#ic-copy"/></svg></span>Copier IBAN</button>
+  </div>
+
+  <div class="sec-header">
+    <h2>Dernieres operations</h2>
+    <div class="pills">
+      <span class="pill active" onclick="filterTx('all',this)">Toutes</span>
+      <span class="pill" onclick="filterTx('debit',this)">Debits</span>
+      <span class="pill" onclick="filterTx('credit',this)">Credits</span>
+    </div>
+  </div>
+
+  <div class="tbl-card">
+    <table><thead><tr><th>Operation</th><th>Date</th><th>Categorie</th><th>Statut</th><th style="text-align:right">Montant</th></tr></thead>
+    <tbody id="tx-body"></tbody>
+    </table>
+  </div>
+
+  <div class="bottom-row">
+    <div class="crd">
+      <h2 style="font-size:14px;font-weight:800;margin-bottom:16px">Repartition des depenses - Avril</h2>
+      <div id="spending-bars"></div>
+    </div>
+    <div class="crd">
+      <h2 style="font-size:14px;font-weight:800;margin-bottom:16px">Actions rapides</h2>
+      <div class="qa-grid">
+        <a class="qa" onclick="openVirement()"><div class="qa-ic"><span class="i"><svg><use href="#ic-transfer"/></svg></span></div><div><div class="qa-txt">Virement</div><div class="qa-sub">Envoyer de l'argent</div></div></a>
+        <a class="qa" onclick="nav('releves')"><div class="qa-ic"><span class="i"><svg><use href="#ic-download"/></svg></span></div><div><div class="qa-txt">RIB</div><div class="qa-sub">Telecharger mon RIB</div></div></a>
+        <a class="qa" onclick="nav('cartes')"><div class="qa-ic"><span class="i"><svg><use href="#ic-card"/></svg></span></div><div><div class="qa-txt">Plafonds</div><div class="qa-sub">Gerer mes plafonds</div></div></a>
+        <a class="qa" onclick="nav('cartes')"><div class="qa-ic"><span class="i"><svg><use href="#ic-lock"/></svg></span></div><div><div class="qa-txt">Securite</div><div class="qa-sub">Bloquer ma carte</div></div></a>
       </div>
     </div>
+  </div>
 
-    <!-- SUMMARY CARDS -->
-    <div class="cards-row">
-      <div class="card highlight">
-        <div class="card-label">Solde disponible</div>
-        <div class="card-amount" id="solde-display">12 847,63 &euro;</div>
-        <div class="card-sub"><span class="up">&#9650; +2,4%</span>&nbsp; vs. mois dernier</div>
-      </div>
-      <div class="card">
-        <div class="card-label">Livret A</div>
-        <div class="card-amount">34 210,00 &euro;</div>
-        <div class="card-sub">Taux : 3,00% &middot; Int&eacute;r&ecirc;ts 2025 : +987,20 &euro;</div>
-      </div>
-      <div class="card">
-        <div class="card-label">Assurance Vie</div>
-        <div class="card-amount">67 530,45 &euro;</div>
-        <div class="card-sub"><span class="up">&#9650; +5,1%</span>&nbsp; rendement annuel</div>
+  <div style="margin-top:24px">
+    <div class="visa-card">
+      <div class="visa-top"><span class="visa-brand">Banque Helvetia</span><span class="visa-type">VISA PREMIER</span></div>
+      <div class="visa-num">**** &nbsp; **** &nbsp; **** &nbsp; 4821</div>
+      <div class="visa-bottom">
+        <div><div class="visa-label">Titulaire</div><div class="visa-val">MORGAN REICHERT</div></div>
+        <div style="text-align:right"><div class="visa-label">Expire</div><div class="visa-val">09/28</div></div>
       </div>
     </div>
-
-    <!-- ACCOUNT BAR -->
-    <div class="account-bar">
-      <div class="account-info">
-        <div class="account-info-item">
-          <label>Titulaire</label>
-          <p>Morgan Reichert</p>
-        </div>
-        <div class="account-info-item">
-          <label>IBAN</label>
-          <p>FR76 1820 6004 1172 8394 5600 147</p>
-        </div>
-        <div class="account-info-item">
-          <label>BIC</label>
-          <p>BHELFR2XXXX</p>
-        </div>
-        <div class="account-info-item">
-          <label>Type</label>
-          <p>Compte courant</p>
-        </div>
-      </div>
-      <button class="btn btn-outline">Copier IBAN</button>
-    </div>
-
-    <!-- TRANSACTIONS -->
-    <div class="section-header">
-      <h2>Dernières opérations</h2>
-      <div class="filter-pills">
-        <span class="filter-pill active">Toutes</span>
-        <span class="filter-pill">Débits</span>
-        <span class="filter-pill">Crédits</span>
-      </div>
-    </div>
-
-    <div class="table-card">
-      <table>
-        <thead>
-          <tr>
-            <th>Opération</th>
-            <th>Date</th>
-            <th>Catégorie</th>
-            <th>Statut</th>
-            <th style="text-align:right">Montant</th>
-          </tr>
-        </thead>
-        <tbody id="tx-body">
-          <tr>
-            <td>
-              <div class="tx-row-info">
-                <div class="tx-icon salary">&#128181;</div>
-                <div><span class="tx-label">Virement entrant - Salaire</span><span class="tx-cat">Nextera Solutions SAS</span></div>
-              </div>
-            </td>
-            <td>01 avr. 2026</td>
-            <td>Revenus</td>
-            <td><span class="badge badge-success">Effectué</span></td>
-            <td class="tx-amount credit">+3 420,00 &euro;</td>
-          </tr>
-          <tr>
-            <td>
-              <div class="tx-row-info">
-                <div class="tx-icon housing">&#127970;</div>
-                <div><span class="tx-label">Prélèvement - Loyer</span><span class="tx-cat">SCI Les Jardins</span></div>
-              </div>
-            </td>
-            <td>03 avr. 2026</td>
-            <td>Logement</td>
-            <td><span class="badge badge-success">Effectué</span></td>
-            <td class="tx-amount debit">-895,00 &euro;</td>
-          </tr>
-          <tr>
-            <td>
-              <div class="tx-row-info">
-                <div class="tx-icon food">&#127834;</div>
-                <div><span class="tx-label">Carte *4821 - Carrefour</span><span class="tx-cat">Carrefour City Bordeaux</span></div>
-              </div>
-            </td>
-            <td>06 avr. 2026</td>
-            <td>Alimentation</td>
-            <td><span class="badge badge-success">Effectué</span></td>
-            <td class="tx-amount debit">-67,42 &euro;</td>
-          </tr>
-          <tr>
-            <td>
-              <div class="tx-row-info">
-                <div class="tx-icon transport">&#128652;</div>
-                <div><span class="tx-label">Prélèvement - TBM</span><span class="tx-cat">Abonnement transport</span></div>
-              </div>
-            </td>
-            <td>07 avr. 2026</td>
-            <td>Transport</td>
-            <td><span class="badge badge-success">Effectué</span></td>
-            <td class="tx-amount debit">-47,50 &euro;</td>
-          </tr>
-          <tr>
-            <td>
-              <div class="tx-row-info">
-                <div class="tx-icon shopping">&#128717;</div>
-                <div><span class="tx-label">Carte *4821 - Amazon</span><span class="tx-cat">Amazon EU S.à r.l.</span></div>
-              </div>
-            </td>
-            <td>09 avr. 2026</td>
-            <td>Achats</td>
-            <td><span class="badge badge-success">Effectué</span></td>
-            <td class="tx-amount debit">-34,99 &euro;</td>
-          </tr>
-          <tr>
-            <td>
-              <div class="tx-row-info">
-                <div class="tx-icon health">&#128138;</div>
-                <div><span class="tx-label">Prélèvement - MAIF</span><span class="tx-cat">Mutuelle santé</span></div>
-              </div>
-            </td>
-            <td>10 avr. 2026</td>
-            <td>Santé</td>
-            <td><span class="badge badge-success">Effectué</span></td>
-            <td class="tx-amount debit">-89,00 &euro;</td>
-          </tr>
-          <tr>
-            <td>
-              <div class="tx-row-info">
-                <div class="tx-icon entertainment">&#127916;</div>
-                <div><span class="tx-label">Carte *4821 - Netflix</span><span class="tx-cat">Netflix International</span></div>
-              </div>
-            </td>
-            <td>12 avr. 2026</td>
-            <td>Loisirs</td>
-            <td><span class="badge badge-success">Effectué</span></td>
-            <td class="tx-amount debit">-13,49 &euro;</td>
-          </tr>
-          <tr>
-            <td>
-              <div class="tx-row-info">
-                <div class="tx-icon transfer">&#128257;</div>
-                <div><span class="tx-label">Virement émis - J. Dupont</span><span class="tx-cat">Remboursement restaurant</span></div>
-              </div>
-            </td>
-            <td>13 avr. 2026</td>
-            <td>Virements</td>
-            <td><span class="badge badge-pending">En cours</span></td>
-            <td class="tx-amount debit">-35,00 &euro;</td>
-          </tr>
-          <tr>
-            <td>
-              <div class="tx-row-info">
-                <div class="tx-icon food">&#127834;</div>
-                <div><span class="tx-label">Carte *4821 - Boulangerie Paul</span><span class="tx-cat">Paul Bordeaux Centre</span></div>
-              </div>
-            </td>
-            <td>14 avr. 2026</td>
-            <td>Alimentation</td>
-            <td><span class="badge badge-pending">En cours</span></td>
-            <td class="tx-amount debit">-8,20 &euro;</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- BOTTOM -->
-    <div class="bottom-row">
-      <!-- SPENDING BREAKDOWN -->
-      <div class="card">
-        <h2 style="font-size:16px;font-weight:700;margin-bottom:20px;">Répartition des dépenses - Avril</h2>
-        <div class="spending-bar">
-          <span class="spending-bar-label">Logement</span>
-          <div class="spending-bar-track"><div class="spending-bar-fill" style="width:72%;background:#6366f1;"></div></div>
-          <span class="spending-bar-value">895,00 &euro;</span>
-        </div>
-        <div class="spending-bar">
-          <span class="spending-bar-label">Santé</span>
-          <div class="spending-bar-track"><div class="spending-bar-fill" style="width:20%;background:#f43f5e;"></div></div>
-          <span class="spending-bar-value">89,00 &euro;</span>
-        </div>
-        <div class="spending-bar">
-          <span class="spending-bar-label">Alimentation</span>
-          <div class="spending-bar-track"><div class="spending-bar-fill" style="width:16%;background:#f59e0b;"></div></div>
-          <span class="spending-bar-value">75,62 &euro;</span>
-        </div>
-        <div class="spending-bar">
-          <span class="spending-bar-label">Transport</span>
-          <div class="spending-bar-track"><div class="spending-bar-fill" style="width:10%;background:#3b82f6;"></div></div>
-          <span class="spending-bar-value">47,50 &euro;</span>
-        </div>
-        <div class="spending-bar">
-          <span class="spending-bar-label">Achats</span>
-          <div class="spending-bar-track"><div class="spending-bar-fill" style="width:8%;background:#ec4899;"></div></div>
-          <span class="spending-bar-value">34,99 &euro;</span>
-        </div>
-        <div class="spending-bar">
-          <span class="spending-bar-label">Virements</span>
-          <div class="spending-bar-track"><div class="spending-bar-fill" style="width:7%;background:#a855f7;"></div></div>
-          <span class="spending-bar-value">35,00 &euro;</span>
-        </div>
-        <div class="spending-bar">
-          <span class="spending-bar-label">Loisirs</span>
-          <div class="spending-bar-track"><div class="spending-bar-fill" style="width:4%;background:#f97316;"></div></div>
-          <span class="spending-bar-value">13,49 &euro;</span>
-        </div>
-      </div>
-
-      <!-- QUICK ACTIONS -->
-      <div class="card">
-        <h2 style="font-size:16px;font-weight:700;margin-bottom:20px;">Actions rapides</h2>
-        <div class="quick-actions">
-          <a href="#" class="quick-action" onclick="openVirement();return false">
-            <div class="qa-icon">&#128257;</div>
-            <div><div class="qa-text">Virement</div><div class="qa-sub">Envoyer de l'argent</div></div>
-          </a>
-          <a href="#" class="quick-action">
-            <div class="qa-icon">&#128179;</div>
-            <div><div class="qa-text">RIB</div><div class="qa-sub">Télécharger mon RIB</div></div>
-          </a>
-          <a href="#" class="quick-action">
-            <div class="qa-icon">&#128202;</div>
-            <div><div class="qa-text">Plafonds</div><div class="qa-sub">Gérer mes plafonds</div></div>
-          </a>
-          <a href="#" class="quick-action">
-            <div class="qa-icon">&#128274;</div>
-            <div><div class="qa-text">Sécurité</div><div class="qa-sub">Bloquer ma carte</div></div>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- CARTE VISA -->
-    <div style="margin-top:28px;">
-      <div class="card" style="background: linear-gradient(135deg, #0a1628 0%, #1a3a5c 50%, #0a1628 100%); color:white; border:none; max-width:420px; position:relative; overflow:hidden;">
-        <div style="position:absolute;top:-30px;right:-30px;width:120px;height:120px;border-radius:50%;background:rgba(184,146,62,0.15);"></div>
-        <div style="position:absolute;bottom:-20px;right:40px;width:80px;height:80px;border-radius:50%;background:rgba(184,146,62,0.1);"></div>
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;">
-          <span style="font-size:14px;font-weight:600;letter-spacing:1px;">Banque Helvétia</span>
-          <span style="font-size:11px;background:rgba(184,146,62,0.25);color:#d4aa4f;padding:3px 10px;border-radius:10px;font-weight:600;">VISA PREMIER</span>
-        </div>
-        <div style="font-size:20px;letter-spacing:4px;font-weight:500;margin-bottom:24px;font-variant-numeric:tabular-nums;">
-          **** &nbsp; **** &nbsp; **** &nbsp; 4821
-        </div>
-        <div style="display:flex;justify-content:space-between;align-items:flex-end;">
-          <div>
-            <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;opacity:0.5;margin-bottom:2px;">Titulaire</div>
-            <div style="font-size:14px;font-weight:600;">MORGAN REICHERT</div>
-          </div>
-          <div style="text-align:right;">
-            <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;opacity:0.5;margin-bottom:2px;">Expire</div>
-            <div style="font-size:14px;font-weight:600;">09/28</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- FOOTER -->
-    <div class="footer">
-      <div class="secure-badge">&#128274; Connexion sécurisée SSL/TLS</div>
-      <p>Banque Helvétia S.A. &middot; 42 avenue des Champs-Élysées, 75008 Paris</p>
-      <p style="margin-top:4px;">RCS Paris 412 345 678 &middot; Agrément ACPR n° 18206 &middot; <a href="#">Mentions légales</a> &middot; <a href="#">CGU</a> &middot; <a href="#">Protection des données</a></p>
-      <p style="margin-top:8px;font-size:11px;opacity:0.7;">&copy; 2026 Banque Helvétia. Tous droits réservés. Ceci est un document fictif à des fins de démonstration uniquement.</p>
-    </div>
-  </main>
+  </div>
 </div>
 
-<!-- MODAL VIREMENT -->
-<div class="modal-overlay" id="modal-virement">
+<!-- ===== COMPTES ===== -->
+<div class="section" id="page-comptes">
+  <div class="pg-header"><div><h1>Mes comptes</h1><p class="sub">Vue d'ensemble de vos comptes bancaires</p></div></div>
+  <div class="cards-grid">
+    <div class="crd premium" style="cursor:pointer">
+      <div class="crd-label">Compte courant</div><div class="crd-amount" id="solde-comptes">12 847,63 &euro;</div>
+      <div class="crd-sub">FR76 1820 6004 1172 8394 5600 147</div>
+    </div>
+    <div class="crd" style="cursor:pointer">
+      <div class="crd-label">Livret A</div><div class="crd-amount">34 210,00 &euro;</div>
+      <div class="crd-sub">Taux : 3,00% &middot; Plafond : 22 950 &euro; restants</div>
+    </div>
+    <div class="crd" style="cursor:pointer">
+      <div class="crd-label">Assurance Vie Helvetia Patrimoine</div><div class="crd-amount">67 530,45 &euro;</div>
+      <div class="crd-sub">Fonds euros 60% &middot; UC 40% &middot; +5,1% annuel</div>
+    </div>
+  </div>
+  <div class="crd" style="margin-top:16px">
+    <h2 style="font-size:14px;font-weight:800;margin-bottom:16px">Patrimoine total</h2>
+    <div style="font-size:36px;font-weight:800;letter-spacing:-1px">114 588,08 &euro;</div>
+    <div style="font-size:12px;color:var(--text-2);margin-top:6px">Reparti sur 3 comptes &middot; Mise a jour en temps reel</div>
+  </div>
+</div>
+
+<!-- ===== VIREMENTS ===== -->
+<div class="section" id="page-virements">
+  <div class="pg-header"><div><h1>Virements</h1><p class="sub">Gerez vos virements et beneficiaires</p></div>
+    <button class="btn btn-primary" onclick="openVirement()"><span class="i i-sm"><svg><use href="#ic-plus"/></svg></span>Nouveau virement</button>
+  </div>
+  <div class="tbl-card">
+    <table><thead><tr><th>Beneficiaire</th><th>Date</th><th>Motif</th><th>Statut</th><th style="text-align:right">Montant</th></tr></thead>
+    <tbody id="vir-history">
+      <tr><td><div class="tx-row"><div class="tx-ic transfer"><span class="i i-sm"><svg><use href="#ic-transfer"/></svg></span></div><div><span class="tx-name">J. Dupont</span><span class="tx-desc">FR76 3000 4012 ...892</span></div></div></td><td>13 avr. 2026</td><td>Remboursement restaurant</td><td><span class="badge badge-pending">En cours</span></td><td class="tx-amt debit">-35,00 &euro;</td></tr>
+    </tbody></table>
+  </div>
+</div>
+
+<!-- ===== CARTES ===== -->
+<div class="section" id="page-cartes">
+  <div class="pg-header"><div><h1>Mes cartes</h1><p class="sub">Gerez vos cartes bancaires</p></div></div>
+  <div style="display:grid;grid-template-columns:400px 1fr;gap:24px">
+    <div>
+      <div class="visa-card">
+        <div class="visa-top"><span class="visa-brand">Banque Helvetia</span><span class="visa-type">VISA PREMIER</span></div>
+        <div class="visa-num">**** &nbsp; **** &nbsp; **** &nbsp; 4821</div>
+        <div class="visa-bottom">
+          <div><div class="visa-label">Titulaire</div><div class="visa-val">MORGAN REICHERT</div></div>
+          <div style="text-align:right"><div class="visa-label">Expire</div><div class="visa-val">09/28</div></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:16px">
+        <button class="btn btn-outline" style="flex:1" id="btn-block-card" onclick="toggleCard()"><span class="i i-sm"><svg><use href="#ic-lock"/></svg></span><span id="block-label">Bloquer</span></button>
+        <button class="btn btn-outline" style="flex:1" onclick="toggleCardNum()"><span class="i i-sm"><svg><use href="#ic-eye"/></svg></span>Voir le numero</button>
+      </div>
+    </div>
+    <div>
+      <div class="setting-group">
+        <div class="setting-group-hdr"><span class="i"><svg><use href="#ic-settings"/></svg></span>Plafonds et options</div>
+        <div class="setting-row"><div><div class="sr-label">Plafond paiement</div><div class="sr-val">3 000 &euro; / 30 jours</div></div><button class="btn btn-sm btn-outline">Modifier</button></div>
+        <div class="setting-row"><div><div class="sr-label">Plafond retrait</div><div class="sr-val">500 &euro; / 7 jours</div></div><button class="btn btn-sm btn-outline">Modifier</button></div>
+        <div class="setting-row"><div><div class="sr-label">Paiement sans contact</div></div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+        <div class="setting-row"><div><div class="sr-label">Paiements en ligne</div></div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+        <div class="setting-row"><div><div class="sr-label">Paiements a l'etranger</div></div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== INVESTISSEMENTS ===== -->
+<div class="section" id="page-investissements">
+  <div class="pg-header"><div><h1>Investissements</h1><p class="sub">Performance de votre portefeuille</p></div></div>
+  <div class="cards-grid">
+    <div class="crd premium"><div class="crd-label">Valeur totale</div><div class="crd-amount">67 530,45 &euro;</div><div class="crd-sub"><span class="up"><span class="i i-sm"><svg><use href="#ic-arrow-up"/></svg></span>+5,1%</span> depuis janvier</div></div>
+    <div class="crd"><div class="crd-label">Plus-value latente</div><div class="crd-amount" style="color:var(--green)">+3 245,12 &euro;</div><div class="crd-sub">Sur un investissement de 64 285,33 &euro;</div></div>
+    <div class="crd"><div class="crd-label">Dividendes 2026</div><div class="crd-amount">842,60 &euro;</div><div class="crd-sub">Prochain versement : juin 2026</div></div>
+  </div>
+  <div class="inv-chart">
+    <h2 style="font-size:14px;font-weight:800;margin-bottom:16px">Performance mensuelle 2026</h2>
+    <div class="chart-bars" id="chart-bars"></div>
+    <div class="chart-labels" id="chart-labels"></div>
+  </div>
+  <div class="crd">
+    <h2 style="font-size:14px;font-weight:800;margin-bottom:16px">Repartition du portefeuille</h2>
+    <div class="sp-bar"><span class="sp-bar-label">Fonds euros</span><div class="sp-bar-track"><div class="sp-bar-fill" style="width:60%;background:var(--green)"></div></div><span class="sp-bar-val">40 518 &euro;</span></div>
+    <div class="sp-bar"><span class="sp-bar-label">Actions FR</span><div class="sp-bar-track"><div class="sp-bar-fill" style="width:20%;background:var(--blue)"></div></div><span class="sp-bar-val">13 506 &euro;</span></div>
+    <div class="sp-bar"><span class="sp-bar-label">Actions US</span><div class="sp-bar-track"><div class="sp-bar-fill" style="width:12%;background:var(--purple)"></div></div><span class="sp-bar-val">8 104 &euro;</span></div>
+    <div class="sp-bar"><span class="sp-bar-label">Obligations</span><div class="sp-bar-track"><div class="sp-bar-fill" style="width:8%;background:var(--gold)"></div></div><span class="sp-bar-val">5 402 &euro;</span></div>
+  </div>
+</div>
+
+<!-- ===== BUDGET ===== -->
+<div class="section" id="page-budget">
+  <div class="pg-header"><div><h1>Budget</h1><p class="sub">Suivi de vos depenses - Avril 2026</p></div></div>
+  <div class="cards-grid" style="grid-template-columns:1fr 1fr">
+    <div class="crd premium"><div class="crd-label">Total depense ce mois</div><div class="crd-amount">1 190,60 &euro;</div><div class="crd-sub">Sur un budget de 2 500 &euro;</div></div>
+    <div class="crd"><div class="crd-label">Reste a depenser</div><div class="crd-amount" style="color:var(--green)">1 309,40 &euro;</div><div class="crd-sub">52% du budget restant</div></div>
+  </div>
+  <div class="crd">
+    <h2 style="font-size:14px;font-weight:800;margin-bottom:16px">Depenses par categorie</h2>
+    <div id="budget-bars"></div>
+  </div>
+</div>
+
+<!-- ===== ASSURANCES ===== -->
+<div class="section" id="page-assurances">
+  <div class="pg-header"><div><h1>Assurances</h1><p class="sub">Vos contrats en cours</p></div></div>
+  <div class="ins-card"><div class="ins-ic" style="background:var(--green-light);color:var(--green)"><span class="i i-lg"><svg><use href="#ic-shield"/></svg></span></div><div style="flex:1"><div style="font-weight:700;font-size:14px">Assurance habitation</div><div style="font-size:12px;color:var(--text-2)">MAIF &middot; Contrat n&deg; AH-2024-8841 &middot; 42 rue des Lilas, Bordeaux</div></div><div style="text-align:right"><div style="font-weight:800;font-size:14px">28,50 &euro;/mois</div><div style="font-size:11px;color:var(--text-3)">Prelevement le 5</div></div></div>
+  <div class="ins-card"><div class="ins-ic" style="background:var(--red-light);color:var(--red)"><span class="i i-lg"><svg><use href="#ic-heart"/></svg></span></div><div style="flex:1"><div style="font-weight:700;font-size:14px">Mutuelle sante</div><div style="font-size:12px;color:var(--text-2)">MAIF &middot; Contrat n&deg; MS-2023-6712 &middot; Formule Confort+</div></div><div style="text-align:right"><div style="font-weight:800;font-size:14px">89,00 &euro;/mois</div><div style="font-size:11px;color:var(--text-3)">Prelevement le 10</div></div></div>
+  <div class="ins-card"><div class="ins-ic" style="background:var(--blue-light);color:var(--blue)"><span class="i i-lg"><svg><use href="#ic-car"/></svg></span></div><div style="flex:1"><div style="font-weight:700;font-size:14px">Assurance auto</div><div style="font-size:12px;color:var(--text-2)">Allianz &middot; Contrat n&deg; AU-2025-3301 &middot; Peugeot 208 &middot; Tous risques</div></div><div style="text-align:right"><div style="font-weight:800;font-size:14px">52,30 &euro;/mois</div><div style="font-size:11px;color:var(--text-3)">Prelevement le 15</div></div></div>
+  <div class="crd" style="margin-top:16px"><div style="font-size:13px;font-weight:700">Total mensuel assurances : <span style="color:var(--green)">169,80 &euro;</span></div></div>
+</div>
+
+<!-- ===== MESSAGES ===== -->
+<div class="section" id="page-messages">
+  <div class="pg-header"><div><h1>Messagerie</h1><p class="sub">Vos echanges avec votre conseiller</p></div></div>
+  <div class="msg-layout">
+    <div class="msg-list" id="msg-list"></div>
+    <div class="msg-content" id="msg-content">
+      <div class="msg-content-hdr"><h3 id="msg-title">Selectionnez un message</h3><p class="msg-meta" id="msg-meta"></p></div>
+      <div class="msg-bubble" id="msg-body" style="flex:1">Choisissez une conversation dans la liste pour afficher son contenu.</div>
+      <div class="msg-reply"><input type="text" placeholder="Ecrire une reponse..." id="msg-input"><button class="btn btn-primary btn-sm" onclick="sendReply()">Envoyer</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== RELEVES ===== -->
+<div class="section" id="page-releves">
+  <div class="pg-header"><div><h1>Releves de compte</h1><p class="sub">Consultez et telechargez vos releves mensuels</p></div></div>
+  <div class="tbl-card">
+    <table><thead><tr><th>Periode</th><th>Type</th><th>Statut</th><th style="text-align:right">Action</th></tr></thead>
+    <tbody>
+      <tr><td style="font-weight:600">Mars 2026</td><td>Releve mensuel</td><td><span class="badge badge-ok">Disponible</span></td><td style="text-align:right"><button class="btn btn-sm btn-outline" onclick="printReleve('Mars 2026')"><span class="i i-sm"><svg><use href="#ic-download"/></svg></span>PDF</button></td></tr>
+      <tr><td style="font-weight:600">Fevrier 2026</td><td>Releve mensuel</td><td><span class="badge badge-ok">Disponible</span></td><td style="text-align:right"><button class="btn btn-sm btn-outline" onclick="printReleve('Fevrier 2026')"><span class="i i-sm"><svg><use href="#ic-download"/></svg></span>PDF</button></td></tr>
+      <tr><td style="font-weight:600">Janvier 2026</td><td>Releve mensuel</td><td><span class="badge badge-ok">Disponible</span></td><td style="text-align:right"><button class="btn btn-sm btn-outline" onclick="printReleve('Janvier 2026')"><span class="i i-sm"><svg><use href="#ic-download"/></svg></span>PDF</button></td></tr>
+      <tr><td style="font-weight:600">Decembre 2025</td><td>Releve mensuel</td><td><span class="badge badge-ok">Disponible</span></td><td style="text-align:right"><button class="btn btn-sm btn-outline" onclick="printReleve('Decembre 2025')"><span class="i i-sm"><svg><use href="#ic-download"/></svg></span>PDF</button></td></tr>
+      <tr><td style="font-weight:600">Annee 2025</td><td>Releve annuel</td><td><span class="badge badge-ok">Disponible</span></td><td style="text-align:right"><button class="btn btn-sm btn-gold" onclick="printReleve('Annee 2025')"><span class="i i-sm"><svg><use href="#ic-download"/></svg></span>PDF</button></td></tr>
+    </tbody></table>
+  </div>
+</div>
+
+<!-- ===== PARAMETRES ===== -->
+<div class="section" id="page-parametres">
+  <div class="pg-header"><div><h1>Parametres</h1><p class="sub">Gerez votre profil et vos preferences</p></div></div>
+  <div class="setting-group">
+    <div class="setting-group-hdr"><span class="i"><svg><use href="#ic-user"/></svg></span>Informations personnelles</div>
+    <div class="setting-row"><div><div class="sr-label">Nom complet</div><div class="sr-val">Morgan Reichert</div></div></div>
+    <div class="setting-row"><div><div class="sr-label">Email</div><div class="sr-val">morgan.reichert@email.com</div></div><button class="btn btn-sm btn-outline">Modifier</button></div>
+    <div class="setting-row"><div><div class="sr-label">Telephone</div><div class="sr-val">+33 6 12 34 56 78</div></div><button class="btn btn-sm btn-outline">Modifier</button></div>
+    <div class="setting-row"><div><div class="sr-label">Adresse</div><div class="sr-val">42 rue des Lilas, 33000 Bordeaux</div></div><button class="btn btn-sm btn-outline">Modifier</button></div>
+  </div>
+  <div class="setting-group">
+    <div class="setting-group-hdr"><span class="i"><svg><use href="#ic-lock"/></svg></span>Securite</div>
+    <div class="setting-row"><div><div class="sr-label">Authentification a deux facteurs</div></div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+    <div class="setting-row"><div><div class="sr-label">Notifications push</div></div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+    <div class="setting-row"><div><div class="sr-label">Alertes email</div></div><button class="toggle" onclick="this.classList.toggle('on')"></button></div>
+    <div class="setting-row"><div><div class="sr-label">Mot de passe</div><div class="sr-val">Modifie il y a 45 jours</div></div><button class="btn btn-sm btn-outline">Changer</button></div>
+  </div>
+  <div class="setting-group">
+    <div class="setting-group-hdr"><span class="i"><svg><use href="#ic-settings"/></svg></span>Preferences</div>
+    <div class="setting-row"><div><div class="sr-label">Langue</div><div class="sr-val">Francais</div></div><button class="btn btn-sm btn-outline">Modifier</button></div>
+    <div class="setting-row"><div><div class="sr-label">Devise par defaut</div><div class="sr-val">EUR (&euro;)</div></div></div>
+    <div class="setting-row"><div><div class="sr-label">Format de date</div><div class="sr-val">JJ/MM/AAAA</div></div></div>
+  </div>
+</div>
+
+<!-- FOOTER (visible on all pages) -->
+<div class="footer">
+  <div class="sec-badge"><span class="i i-sm"><svg><use href="#ic-lock"/></svg></span>Connexion securisee SSL/TLS</div>
+  <p>Banque Helvetia S.A. &middot; 42 avenue des Champs-Elysees, 75008 Paris</p>
+  <p style="margin-top:3px">RCS Paris 412 345 678 &middot; Agrement ACPR n&deg; 18206 &middot; <a href="#">Mentions legales</a> &middot; <a href="#">CGU</a> &middot; <a href="#">Protection des donnees</a></p>
+  <p style="margin-top:6px;font-size:10px;opacity:.6">&copy; 2026 Banque Helvetia. Tous droits reserves. Document fictif a des fins de demonstration.</p>
+</div>
+
+</main>
+</div>
+
+<!-- ===== MODAL VIREMENT ===== -->
+<div class="modal-ov" id="modal-virement">
   <div class="modal">
-    <!-- STEP 1: FORM -->
-    <div class="step-form" id="step-form">
-      <div class="modal-header">
-        <h2>&#128257; Nouveau virement</h2>
-        <button class="modal-close" onclick="closeVirement()">&times;</button>
-      </div>
+    <div class="step" id="step-form">
+      <div class="modal-hdr"><h2><span class="i"><svg><use href="#ic-transfer"/></svg></span>Nouveau virement</h2><button class="modal-close" onclick="closeVirement()"><span class="i i-sm"><svg><use href="#ic-x"/></svg></span></button></div>
       <div class="modal-body">
-        <div class="form-group">
-          <label>Compte débiteur</label>
-          <select id="v-compte">
-            <option>Compte courant &middot; FR76 1820 ...147 &middot; 12 847,63 &euro;</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Bénéficiaire</label>
-          <input type="text" id="v-beneficiaire" placeholder="Nom du bénéficiaire" required>
-        </div>
-        <div class="form-group">
-          <label>IBAN du bénéficiaire</label>
-          <input type="text" id="v-iban" placeholder="FR76 XXXX XXXX XXXX XXXX XXXX XXX" required>
-          <p class="input-hint">Format IBAN européen (27 caractères pour la France)</p>
-        </div>
+        <div class="fg"><label>Compte debiteur</label><select id="v-compte"><option>Compte courant &middot; FR76 1820 ...147</option></select></div>
+        <div class="fg"><label>Beneficiaire</label><input type="text" id="v-beneficiaire" placeholder="Nom du beneficiaire"></div>
+        <div class="fg"><label>IBAN du beneficiaire</label><input type="text" id="v-iban" placeholder="FR76 XXXX XXXX XXXX XXXX XXXX XXX"><p class="hint">Format IBAN europeen</p></div>
         <div class="form-row">
-          <div class="form-group">
-            <label>Montant</label>
-            <input type="number" id="v-montant" placeholder="0,00" min="0.01" step="0.01" required>
-          </div>
-          <div class="form-group">
-            <label>Devise</label>
-            <select id="v-devise">
-              <option>EUR (&euro;)</option>
-              <option>USD ($)</option>
-              <option>GBP (&pound;)</option>
-              <option>CHF (CHF)</option>
-            </select>
-          </div>
+          <div class="fg"><label>Montant</label><input type="number" id="v-montant" placeholder="0,00" min="0.01" step="0.01"></div>
+          <div class="fg"><label>Devise</label><select id="v-devise"><option>EUR</option><option>USD</option><option>GBP</option><option>CHF</option></select></div>
         </div>
-        <div class="form-group">
-          <label>Motif / Référence</label>
-          <textarea id="v-motif" placeholder="Ex : Remboursement, facture n°..." rows="2"></textarea>
-        </div>
-        <div class="form-group">
-          <label>Date d'exécution</label>
-          <input type="date" id="v-date" required>
-        </div>
+        <div class="fg"><label>Motif / Reference</label><textarea id="v-motif" placeholder="Ex : Remboursement, facture..." rows="2"></textarea></div>
+        <div class="fg"><label>Date d'execution</label><input type="date" id="v-date"></div>
       </div>
       <div class="modal-actions">
-        <button class="btn btn-outline btn-lg" onclick="closeVirement()">Annuler</button>
-        <button class="btn btn-primary btn-lg" onclick="showConfirmation()">Continuer</button>
+        <button class="btn btn-outline" onclick="closeVirement()">Annuler</button>
+        <button class="btn btn-primary" onclick="showConfirm()"><span class="i i-sm"><svg><use href="#ic-arrow-right"/></svg></span>Continuer</button>
       </div>
     </div>
-
-    <!-- STEP 2: CONFIRMATION -->
-    <div class="step-confirm" id="step-confirm">
-      <div class="modal-header">
-        <h2>&#128274; Confirmation du virement</h2>
-        <button class="modal-close" onclick="closeVirement()">&times;</button>
-      </div>
-      <div class="confirm-amount" id="confirm-amount"></div>
+    <div class="step hidden" id="step-confirm">
+      <div class="modal-hdr"><h2><span class="i"><svg><use href="#ic-lock"/></svg></span>Confirmation</h2><button class="modal-close" onclick="closeVirement()"><span class="i i-sm"><svg><use href="#ic-x"/></svg></span></button></div>
+      <div class="confirm-amt" id="c-amount"></div>
       <div class="confirm-sub">Virement unique en euros</div>
-      <div class="confirm-details">
-        <div class="confirm-row">
-          <span class="cr-label">Bénéficiaire</span>
-          <span class="cr-value" id="confirm-benef"></span>
-        </div>
-        <div class="confirm-row">
-          <span class="cr-label">IBAN</span>
-          <span class="cr-value" id="confirm-iban"></span>
-        </div>
-        <div class="confirm-row">
-          <span class="cr-label">Motif</span>
-          <span class="cr-value" id="confirm-motif"></span>
-        </div>
-        <div class="confirm-row">
-          <span class="cr-label">Date d'exécution</span>
-          <span class="cr-value" id="confirm-date"></span>
-        </div>
-        <div class="confirm-row">
-          <span class="cr-label">Frais</span>
-          <span class="cr-value">0,00 &euro;</span>
-        </div>
+      <div class="confirm-box">
+        <div class="cr-row"><span class="cr-label">Beneficiaire</span><span class="cr-val" id="c-benef"></span></div>
+        <div class="cr-row"><span class="cr-label">IBAN</span><span class="cr-val" id="c-iban"></span></div>
+        <div class="cr-row"><span class="cr-label">Motif</span><span class="cr-val" id="c-motif"></span></div>
+        <div class="cr-row"><span class="cr-label">Date</span><span class="cr-val" id="c-date"></span></div>
+        <div class="cr-row"><span class="cr-label">Frais</span><span class="cr-val">0,00 &euro;</span></div>
       </div>
-      <div class="security-notice">
-        &#128274; Transaction sécurisée &middot; Authentification forte validée
-      </div>
+      <div class="sec-notice"><span class="i i-sm"><svg><use href="#ic-lock"/></svg></span>Transaction securisee &middot; Authentification forte validee</div>
       <div class="modal-actions">
-        <button class="btn btn-outline btn-lg" onclick="backToForm()">Modifier</button>
-        <button class="btn btn-primary btn-lg" onclick="executeVirement()">&#10003; Confirmer le virement</button>
+        <button class="btn btn-outline" onclick="backForm()">Modifier</button>
+        <button class="btn btn-primary" onclick="execVirement()"><span class="i i-sm"><svg><use href="#ic-check"/></svg></span>Confirmer</button>
       </div>
     </div>
-
-    <!-- STEP 3: SUCCESS -->
-    <div class="virement-success" id="step-success">
-      <div class="success-icon">&#10003;</div>
-      <h3>Virement effectué avec succès</h3>
-      <p id="success-msg"></p>
-      <p style="font-size:12px;color:var(--text-secondary);margin-bottom:24px;">Référence : VIR-<span id="ref-code"></span></p>
-      <button class="btn btn-primary btn-lg" onclick="closeVirement()">Retour au tableau de bord</button>
+    <div class="v-success" id="step-success">
+      <div class="suc-icon"><span class="i i-xl"><svg><use href="#ic-check"/></svg></span></div>
+      <h3>Virement effectue</h3>
+      <p id="suc-msg"></p>
+      <p style="font-size:11px;color:var(--text-3);margin-bottom:20px">Ref : VIR-<span id="suc-ref"></span></p>
+      <button class="btn btn-primary" onclick="closeVirement()">Retour</button>
     </div>
   </div>
 </div>
 
 <script>
-  // Service Worker
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js');
-  }
+// ===== DATA =====
+let solde = 12847.63;
+const txData = [
+  {name:'Virement entrant - Salaire',desc:'Nextera Solutions SAS',date:'2026-04-01',cat:'Revenus',status:'ok',amount:3420,type:'credit',icon:'salary',ic:'ic-dollar'},
+  {name:'Prelevement - Loyer',desc:'SCI Les Jardins',date:'2026-04-03',cat:'Logement',status:'ok',amount:-895,type:'debit',icon:'housing',ic:'ic-home2'},
+  {name:'Carte *4821 - Carrefour',desc:'Carrefour City Bordeaux',date:'2026-04-06',cat:'Alimentation',status:'ok',amount:-67.42,type:'debit',icon:'food',ic:'ic-coffee'},
+  {name:'Prelevement - TBM',desc:'Abonnement transport',date:'2026-04-07',cat:'Transport',status:'ok',amount:-47.5,type:'debit',icon:'transport',ic:'ic-car'},
+  {name:'Carte *4821 - Amazon',desc:'Amazon EU S.a r.l.',date:'2026-04-09',cat:'Achats',status:'ok',amount:-34.99,type:'debit',icon:'shopping',ic:'ic-bag'},
+  {name:'Prelevement - MAIF',desc:'Mutuelle sante',date:'2026-04-10',cat:'Sante',status:'ok',amount:-89,type:'debit',icon:'health',ic:'ic-heart'},
+  {name:'Carte *4821 - Netflix',desc:'Netflix International',date:'2026-04-12',cat:'Loisirs',status:'ok',amount:-13.49,type:'debit',icon:'entertainment',ic:'ic-film'},
+  {name:'Virement emis - J. Dupont',desc:'Remboursement restaurant',date:'2026-04-13',cat:'Virements',status:'pending',amount:-35,type:'debit',icon:'transfer',ic:'ic-transfer'},
+  {name:'Carte *4821 - Boulangerie Paul',desc:'Paul Bordeaux Centre',date:'2026-04-14',cat:'Alimentation',status:'pending',amount:-8.2,type:'debit',icon:'food',ic:'ic-coffee'},
+];
 
-  // State
-  let currentSolde = 12847.63;
+const spending = [
+  {label:'Logement',val:895,color:'#4f46e5'},
+  {label:'Sante',val:89,color:'#dc2626'},
+  {label:'Alimentation',val:75.62,color:'#d97706'},
+  {label:'Transport',val:47.5,color:'#2563eb'},
+  {label:'Achats',val:34.99,color:'#db2777'},
+  {label:'Virements',val:35,color:'#7c3aed'},
+  {label:'Loisirs',val:13.49,color:'#ea580c'},
+];
 
-  // Set default date to today
-  document.getElementById('v-date').valueAsDate = new Date();
+const messages = [
+  {from:'Sophie Martin',role:'Conseillere',date:'14 avr. 2026',subject:'Votre demande de pret immobilier',body:"Bonjour Morgan,\n\nSuite a notre entretien telephonique du 12 avril, j'ai le plaisir de vous confirmer que votre dossier de pret immobilier a ete transmis au service des engagements.\n\nLe montant demande de 180 000 EUR sur 20 ans est conforme a votre capacite d'emprunt. Nous devrions recevoir une reponse de principe sous 5 jours ouvrables.\n\nJe reste a votre disposition.\n\nCordialement,\nSophie Martin\nConseillere Patrimoine"},
+  {from:'Service Securite',role:'Alerte automatique',date:'12 avr. 2026',subject:'Connexion depuis un nouvel appareil',body:"Bonjour,\n\nUne connexion a ete detectee depuis un nouvel appareil :\n- Appareil : iPhone 15 Pro\n- Localisation : Bordeaux, France\n- Date : 12 avril 2026 a 08:47\n\nSi vous etes a l'origine de cette connexion, aucune action n'est requise. Dans le cas contraire, veuillez modifier votre mot de passe immediatement.\n\nService Securite - Banque Helvetia"},
+  {from:'Sophie Martin',role:'Conseillere',date:'08 avr. 2026',subject:'Point trimestriel assurance vie',body:"Bonjour Morgan,\n\nVoici le resume de votre assurance vie Helvetia Patrimoine au T1 2026 :\n- Valeur actuelle : 67 530,45 EUR\n- Performance T1 : +5,1%\n- Repartition : 60% fonds euros / 40% UC\n\nLa performance est superieure a la moyenne du marche (+3,2%). Je recommande de maintenir la repartition actuelle.\n\nSophie Martin"},
+  {from:'Service Client',role:'Information',date:'01 avr. 2026',subject:'Nouvelles fonctionnalites de votre espace',body:"Cher client,\n\nNous avons le plaisir de vous informer que votre espace client beneficie desormais de nouvelles fonctionnalites :\n\n- Virement instantane (SEPA Instant)\n- Gestion avancee des plafonds carte\n- Export des releves au format PDF\n\nN'hesitez pas a nous contacter pour toute question.\n\nL'equipe Banque Helvetia"},
+];
 
-  // Format number
-  function fmt(n) {
-    return n.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  }
+// ===== HELPERS =====
+const fmt = n => n.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const fmtD = d => {const dt=new Date(d);const m=['janv.','fevr.','mars','avr.','mai','juin','juil.','aout','sept.','oct.','nov.','dec.'];return String(dt.getDate()).padStart(2,'0')+' '+m[dt.getMonth()]+' '+dt.getFullYear()};
 
-  // Format date
-  function fmtDate(dateStr) {
-    const d = new Date(dateStr);
-    const months = ['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
-    return String(d.getDate()).padStart(2,'0') + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
-  }
+// ===== NAV =====
+function nav(page){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  document.querySelectorAll('.sb-nav a').forEach(a=>{a.classList.remove('active');if(a.dataset.page===page)a.classList.add('active')});
+  window.scrollTo(0,0);
+  closeNotifs();
+}
+document.querySelectorAll('.sb-nav a[data-page]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();nav(a.dataset.page)}));
 
-  // Open modal
-  function openVirement() {
-    document.getElementById('modal-virement').classList.add('active');
-    document.getElementById('step-form').classList.remove('hidden');
-    document.getElementById('step-confirm').classList.remove('active');
-    document.getElementById('step-success').classList.remove('active');
-    document.body.style.overflow = 'hidden';
-  }
-
-  // Close modal
-  function closeVirement() {
-    document.getElementById('modal-virement').classList.remove('active');
-    document.body.style.overflow = '';
-    // Reset form
-    document.getElementById('v-beneficiaire').value = '';
-    document.getElementById('v-iban').value = '';
-    document.getElementById('v-montant').value = '';
-    document.getElementById('v-motif').value = '';
-    document.getElementById('v-date').valueAsDate = new Date();
-  }
-
-  // Show confirmation
-  function showConfirmation() {
-    const benef = document.getElementById('v-beneficiaire').value.trim();
-    const iban = document.getElementById('v-iban').value.trim();
-    const montant = parseFloat(document.getElementById('v-montant').value);
-    const motif = document.getElementById('v-motif').value.trim();
-    const date = document.getElementById('v-date').value;
-
-    if (!benef || !iban || !montant || montant <= 0) {
-      alert('Veuillez remplir tous les champs obligatoires.');
-      return;
-    }
-
-    if (montant > currentSolde) {
-      alert('Solde insuffisant pour effectuer ce virement.');
-      return;
-    }
-
-    document.getElementById('confirm-amount').textContent = fmt(montant) + ' \u20AC';
-    document.getElementById('confirm-benef').textContent = benef;
-    document.getElementById('confirm-iban').textContent = iban;
-    document.getElementById('confirm-motif').textContent = motif || '\u2014';
-    document.getElementById('confirm-date').textContent = fmtDate(date);
-
-    document.getElementById('step-form').classList.add('hidden');
-    document.getElementById('step-confirm').classList.add('active');
-  }
-
-  // Back to form
-  function backToForm() {
-    document.getElementById('step-confirm').classList.remove('active');
-    document.getElementById('step-form').classList.remove('hidden');
-  }
-
-  // Execute virement
-  function executeVirement() {
-    const benef = document.getElementById('v-beneficiaire').value.trim();
-    const iban = document.getElementById('v-iban').value.trim();
-    const montant = parseFloat(document.getElementById('v-montant').value);
-    const motif = document.getElementById('v-motif').value.trim();
-    const date = document.getElementById('v-date').value;
-
-    // Update solde
-    currentSolde -= montant;
-    document.getElementById('solde-display').innerHTML = fmt(currentSolde) + ' &euro;';
-
-    // Generate ref
-    const ref = Math.random().toString(36).substring(2, 10).toUpperCase();
-    document.getElementById('ref-code').textContent = ref;
-    document.getElementById('success-msg').textContent =
-      fmt(montant) + ' \u20AC envoyés à ' + benef;
-
-    // Add to transaction table
-    const tbody = document.getElementById('tx-body');
-    const row = document.createElement('tr');
-    row.style.animation = 'modalIn 0.3s ease';
-    row.innerHTML = `
-      <td>
-        <div class="tx-row-info">
-          <div class="tx-icon transfer">&#128257;</div>
-          <div><span class="tx-label">Virement émis - ${benef}</span><span class="tx-cat">${motif || 'Virement'}</span></div>
-        </div>
-      </td>
-      <td>${fmtDate(date)}</td>
-      <td>Virements</td>
-      <td><span class="badge badge-pending">En cours</span></td>
-      <td class="tx-amount debit">-${fmt(montant)} &euro;</td>
-    `;
-    tbody.insertBefore(row, tbody.firstChild);
-
-    // Show success
-    document.getElementById('step-confirm').classList.remove('active');
-    document.getElementById('step-success').classList.add('active');
-  }
-
-  // Close modal on overlay click
-  document.getElementById('modal-virement').addEventListener('click', function(e) {
-    if (e.target === this) closeVirement();
+// ===== RENDER TX =====
+function renderTx(filter='all'){
+  const tbody=document.getElementById('tx-body');
+  tbody.innerHTML='';
+  txData.filter(t=>filter==='all'||(filter==='debit'&&t.amount<0)||(filter==='credit'&&t.amount>0)).forEach(t=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td><div class="tx-row"><div class="tx-ic ${t.icon}"><span class="i i-sm"><svg><use href="#${t.ic}"/></svg></span></div><div><span class="tx-name">${t.name}</span><span class="tx-desc">${t.desc}</span></div></div></td><td>${fmtD(t.date)}</td><td>${t.cat}</td><td><span class="badge ${t.status==='ok'?'badge-ok':'badge-pending'}">${t.status==='ok'?'Effectue':'En cours'}</span></td><td class="tx-amt ${t.type}">${t.amount>0?'+':''}${fmt(Math.abs(t.amount))} &euro;</td>`;
+    tbody.appendChild(tr);
   });
+}
+function filterTx(f,el){document.querySelectorAll('.pills .pill').forEach(p=>p.classList.remove('active'));el.classList.add('active');renderTx(f)}
 
-  // Close on Escape
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeVirement();
+// ===== RENDER SPENDING =====
+function renderSpending(){
+  const max=Math.max(...spending.map(s=>s.val));
+  const container=document.getElementById('spending-bars');
+  const budgetContainer=document.getElementById('budget-bars');
+  spending.forEach(s=>{
+    const pct=Math.round(s.val/max*100);
+    const html=`<div class="sp-bar"><span class="sp-bar-label">${s.label}</span><div class="sp-bar-track"><div class="sp-bar-fill" style="width:${pct}%;background:${s.color}"></div></div><span class="sp-bar-val">${fmt(s.val)} &euro;</span></div>`;
+    container.innerHTML+=html;
+    budgetContainer.innerHTML+=html;
   });
+}
+
+// ===== RENDER CHART =====
+function renderChart(){
+  const data=[1.2,0.8,-0.3,2.1,1.5,0.9,1.8,-0.5,1.1,2.3,0.7,1.4];
+  const months=['J','F','M','A','M','J','J','A','S','O','N','D'];
+  const bars=document.getElementById('chart-bars');
+  const labels=document.getElementById('chart-labels');
+  const max=Math.max(...data.map(Math.abs));
+  data.forEach((d,i)=>{
+    const h=Math.abs(d)/max*140;
+    const bar=document.createElement('div');
+    bar.className='chart-bar';
+    bar.style.height=h+'px';
+    bar.style.background=d>=0?'var(--green)':'var(--red)';
+    bar.style.opacity=i<4?'1':'.3';
+    bar.innerHTML=`<span class="cb-tip">${d>0?'+':''}${d}%</span>`;
+    bars.appendChild(bar);
+    labels.innerHTML+=`<span>${months[i]}</span>`;
+  });
+}
+
+// ===== RENDER MESSAGES =====
+function renderMessages(){
+  const list=document.getElementById('msg-list');
+  messages.forEach((m,i)=>{
+    const div=document.createElement('div');
+    div.className='msg-item'+(i===0?' active':'');
+    div.innerHTML=`<div class="msg-from">${m.from}</div><div class="msg-preview">${m.subject}</div><div class="msg-date">${m.date}</div>`;
+    div.onclick=()=>showMsg(i);
+    list.appendChild(div);
+  });
+  showMsg(0);
+}
+function showMsg(i){
+  const m=messages[i];
+  document.querySelectorAll('.msg-item').forEach((el,j)=>el.classList.toggle('active',j===i));
+  document.getElementById('msg-title').textContent=m.subject;
+  document.getElementById('msg-meta').textContent=m.from+' &middot; '+m.role+' &middot; '+m.date;
+  document.getElementById('msg-meta').innerHTML=m.from+' &middot; '+m.role+' &middot; '+m.date;
+  document.getElementById('msg-body').textContent=m.body;
+  document.getElementById('msg-body').style.whiteSpace='pre-wrap';
+}
+function sendReply(){
+  const input=document.getElementById('msg-input');
+  if(!input.value.trim())return;
+  const body=document.getElementById('msg-body');
+  body.textContent+='\n\n--- Votre reponse (15 avr. 2026) ---\n'+input.value;
+  input.value='';
+}
+
+// ===== VIREMENT =====
+function openVirement(){
+  document.getElementById('modal-virement').classList.add('active');
+  document.getElementById('step-form').classList.remove('hidden');
+  document.getElementById('step-confirm').classList.add('hidden');
+  document.getElementById('step-success').classList.remove('active');
+  document.body.style.overflow='hidden';
+  document.getElementById('v-date').valueAsDate=new Date();
+}
+function closeVirement(){
+  document.getElementById('modal-virement').classList.remove('active');
+  document.body.style.overflow='';
+  ['v-beneficiaire','v-iban','v-montant','v-motif'].forEach(id=>document.getElementById(id).value='');
+}
+function showConfirm(){
+  const b=document.getElementById('v-beneficiaire').value.trim();
+  const iban=document.getElementById('v-iban').value.trim();
+  const m=parseFloat(document.getElementById('v-montant').value);
+  if(!b||!iban||!m||m<=0){alert('Veuillez remplir tous les champs.');return}
+  if(m>solde){alert('Solde insuffisant.');return}
+  document.getElementById('c-amount').textContent=fmt(m)+' \u20AC';
+  document.getElementById('c-benef').textContent=b;
+  document.getElementById('c-iban').textContent=iban;
+  document.getElementById('c-motif').textContent=document.getElementById('v-motif').value.trim()||'\u2014';
+  document.getElementById('c-date').textContent=fmtD(document.getElementById('v-date').value);
+  document.getElementById('step-form').classList.add('hidden');
+  document.getElementById('step-confirm').classList.remove('hidden');
+}
+function backForm(){document.getElementById('step-confirm').classList.add('hidden');document.getElementById('step-form').classList.remove('hidden')}
+function execVirement(){
+  const b=document.getElementById('v-beneficiaire').value.trim();
+  const m=parseFloat(document.getElementById('v-montant').value);
+  const motif=document.getElementById('v-motif').value.trim();
+  const date=document.getElementById('v-date').value;
+  solde-=m;
+  updateSolde();
+  const ref=Math.random().toString(36).substring(2,10).toUpperCase();
+  document.getElementById('suc-ref').textContent=ref;
+  document.getElementById('suc-msg').textContent=fmt(m)+' \u20AC envoyes a '+b;
+  txData.unshift({name:'Virement emis - '+b,desc:motif||'Virement',date,cat:'Virements',status:'pending',amount:-m,type:'debit',icon:'transfer',ic:'ic-transfer'});
+  renderTx();
+  // Add to virements history
+  const row=document.createElement('tr');
+  row.style.animation='mIn .3s ease';
+  row.innerHTML=`<td><div class="tx-row"><div class="tx-ic transfer"><span class="i i-sm"><svg><use href="#ic-transfer"/></svg></span></div><div><span class="tx-name">${b}</span><span class="tx-desc">${document.getElementById('v-iban').value.trim()}</span></div></div></td><td>${fmtD(date)}</td><td>${motif||'Virement'}</td><td><span class="badge badge-pending">En cours</span></td><td class="tx-amt debit">-${fmt(m)} &euro;</td>`;
+  document.getElementById('vir-history').insertBefore(row,document.getElementById('vir-history').firstChild);
+  document.getElementById('step-confirm').classList.add('hidden');
+  document.getElementById('step-success').classList.add('active');
+}
+function updateSolde(){
+  const s=fmt(solde)+' \u20AC';
+  document.getElementById('solde-display').textContent=s;
+  document.getElementById('solde-comptes').textContent=s;
+}
+
+// ===== NOTIFS =====
+function toggleNotifs(){document.getElementById('notif-drop').classList.toggle('show')}
+function closeNotifs(){document.getElementById('notif-drop').classList.remove('show')}
+function clearNotifs(){document.getElementById('notif-dot').style.display='none';document.getElementById('notif-drop').classList.remove('show')}
+document.addEventListener('click',e=>{if(!e.target.closest('#btn-notif')&&!e.target.closest('#notif-drop'))closeNotifs()});
+
+// ===== CARD =====
+let cardBlocked=false;
+function toggleCard(){
+  cardBlocked=!cardBlocked;
+  document.getElementById('block-label').textContent=cardBlocked?'Debloquer':'Bloquer';
+  document.getElementById('btn-block-card').classList.toggle('btn-danger',cardBlocked);
+  document.getElementById('btn-block-card').classList.toggle('btn-outline',!cardBlocked);
+}
+function toggleCardNum(){
+  const el=document.querySelector('.visa-num');
+  if(el.dataset.show==='1'){el.textContent='**** \u00a0 **** \u00a0 **** \u00a0 4821';el.dataset.show='0'}
+  else{el.textContent='4978 \u00a0 3612 \u00a0 8847 \u00a0 4821';el.dataset.show='1'}
+}
+
+// ===== SEARCH =====
+function toggleSearch(){const q=prompt('Rechercher...');if(q)alert('Recherche de "'+q+'" - fonctionnalite de demonstration.')}
+
+// ===== COPY IBAN =====
+function copyIban(){navigator.clipboard?.writeText('FR7618206004117283945600147');alert('IBAN copie !')}
+
+// ===== RELEVE PDF =====
+function printReleve(period){
+  const w=window.open('','_blank');
+  w.document.write(`<!DOCTYPE html><html><head><title>Releve ${period}</title><style>body{font-family:Inter,system-ui,sans-serif;padding:40px;color:#111}h1{font-size:22px;margin-bottom:4px}h2{font-size:14px;color:#6b7280;margin-bottom:24px}.logo{font-size:20px;font-weight:800;color:#0b1426;margin-bottom:24px;display:flex;align-items:center;gap:8px}.gold{color:#c9a84c}table{width:100%;border-collapse:collapse;margin-top:16px}th{text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#9ca3af;padding:8px 0;border-bottom:2px solid #e5e7eb}td{padding:10px 0;border-bottom:1px solid #f3f4f6;font-size:13px}.right{text-align:right;font-weight:700}.credit{color:#16a34a}.footer{margin-top:40px;padding-top:16px;border-top:1px solid #e5e7eb;font-size:10px;color:#9ca3af;text-align:center}@media print{body{padding:20px}}</style></head><body>`);
+  w.document.write(`<div class="logo"><span class="gold">BH</span> Banque Helvetia</div><h1>Releve de compte - ${period}</h1><h2>Morgan Reichert &middot; FR76 1820 6004 1172 8394 5600 147</h2>`);
+  w.document.write('<table><thead><tr><th>Date</th><th>Operation</th><th>Categorie</th><th class="right">Montant</th></tr></thead><tbody>');
+  txData.forEach(t=>{w.document.write(`<tr><td>${fmtD(t.date)}</td><td>${t.name}</td><td>${t.cat}</td><td class="right ${t.type}">${t.amount>0?'+':''}${fmt(Math.abs(t.amount))} &euro;</td></tr>`)});
+  w.document.write('</tbody></table>');
+  w.document.write(`<div style="margin-top:24px;font-size:14px"><strong>Solde au ${fmtD(new Date().toISOString().split('T')[0])} : ${fmt(solde)} &euro;</strong></div>`);
+  w.document.write('<div class="footer">Banque Helvetia S.A. &middot; 42 avenue des Champs-Elysees, 75008 Paris &middot; RCS Paris 412 345 678 &middot; Document fictif</div>');
+  w.document.write('</body></html>');
+  w.document.close();
+  setTimeout(()=>w.print(),300);
+}
+
+// ===== MODAL CLOSE =====
+document.getElementById('modal-virement').addEventListener('click',e=>{if(e.target===document.getElementById('modal-virement'))closeVirement()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeVirement()});
+
+// ===== SERVICE WORKER =====
+if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js');
+
+// ===== INIT =====
+renderTx();
+renderSpending();
+renderChart();
+renderMessages();
+document.getElementById('v-date').valueAsDate=new Date();
 </script>
-
 </body>
 </html>
