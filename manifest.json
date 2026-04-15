@@ -1,0 +1,18 @@
+{
+  "name": "Banque Helvétia - Espace Client",
+  "short_name": "Helvétia",
+  "description": "Votre espace bancaire personnel Banque Helvétia",
+  "start_url": "./banque.html",
+  "display": "standalone",
+  "background_color": "#0a1628",
+  "theme_color": "#0a1628",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

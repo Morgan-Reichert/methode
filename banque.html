@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Banque Helvétia - Espace Client</title>
+<meta name="theme-color" content="#0a1628">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Helvétia">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<link rel="apple-touch-icon" href="icon.svg">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -54,17 +61,9 @@
     letter-spacing: -0.5px;
   }
 
-  .topbar-logo .shield {
+  .topbar-logo .logo-icon {
     width: 36px;
     height: 36px;
-    background: var(--gold);
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--primary);
   }
 
   .topbar-right {
@@ -531,6 +530,260 @@
     font-weight: 600;
     margin-bottom: 8px;
   }
+
+  /* MODAL VIREMENT */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10,22,40,0.6);
+    backdrop-filter: blur(4px);
+    z-index: 200;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-overlay.active { display: flex; }
+
+  .modal {
+    background: white;
+    border-radius: 16px;
+    width: 520px;
+    max-width: 95vw;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 24px 48px rgba(0,0,0,0.2);
+    animation: modalIn 0.25s ease;
+  }
+
+  @keyframes modalIn {
+    from { opacity: 0; transform: translateY(20px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 28px 0;
+  }
+
+  .modal-header h2 {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+
+  .modal-close {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: var(--text-secondary);
+    transition: all 0.15s;
+  }
+
+  .modal-close:hover { background: var(--bg); color: var(--text); }
+
+  .modal-body { padding: 24px 28px; }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    background: white;
+    transition: border-color 0.15s;
+    outline: none;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(26,107,74,0.1);
+  }
+
+  .form-group textarea { resize: vertical; min-height: 60px; }
+
+  .form-group .input-hint {
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .form-summary {
+    background: var(--bg);
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 20px;
+  }
+
+  .form-summary-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    padding: 4px 0;
+  }
+
+  .form-summary-row.total {
+    border-top: 1px solid var(--border);
+    margin-top: 8px;
+    padding-top: 10px;
+    font-weight: 700;
+    font-size: 15px;
+  }
+
+  .form-summary-row .label { color: var(--text-secondary); }
+
+  .modal-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    padding: 0 28px 24px;
+  }
+
+  .btn-lg {
+    padding: 12px 28px;
+    font-size: 14px;
+    border-radius: 10px;
+  }
+
+  /* SUCCESS STATE */
+  .virement-success {
+    display: none;
+    text-align: center;
+    padding: 40px 28px;
+  }
+
+  .virement-success.active { display: block; }
+
+  .success-icon {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: #d1fae5;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    margin-bottom: 20px;
+    animation: successPop 0.4s ease;
+  }
+
+  @keyframes successPop {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+
+  .virement-success h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--accent);
+  }
+
+  .virement-success p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+  }
+
+  /* CONFIRMATION STEP */
+  .step-form { display: block; }
+  .step-confirm { display: none; }
+  .step-confirm.active { display: block; }
+  .step-form.hidden { display: none; }
+
+  .confirm-details {
+    text-align: left;
+    background: var(--bg);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 28px;
+  }
+
+  .confirm-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .confirm-row:last-child { border-bottom: none; }
+  .confirm-row .cr-label { color: var(--text-secondary); font-weight: 500; }
+  .confirm-row .cr-value { font-weight: 600; text-align: right; }
+
+  .confirm-amount {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 24px 0 8px;
+  }
+
+  .confirm-sub {
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+  }
+
+  .security-notice {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--accent-light);
+    padding: 12px 16px;
+    border-radius: 10px;
+    margin: 0 28px 20px;
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .sidebar { display: none; }
+    .cards-row { grid-template-columns: 1fr; }
+    .bottom-row { grid-template-columns: 1fr; }
+    .account-bar { flex-direction: column; gap: 16px; align-items: flex-start; }
+    .account-info { flex-wrap: wrap; gap: 20px; }
+    .page-header { flex-direction: column; gap: 16px; align-items: flex-start; }
+    .main { padding: 20px; }
+    .topbar { padding: 0 16px; }
+    .topbar-logo { font-size: 16px; }
+    .user-name { display: none; }
+  }
 </style>
 </head>
 <body>
@@ -538,7 +791,18 @@
 <!-- TOP BAR -->
 <div class="topbar">
   <div class="topbar-logo">
-    <div class="shield">BH</div>
+    <svg class="logo-icon" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="bg-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0a1628"/><stop offset="100%" stop-color="#162744"/></linearGradient>
+        <linearGradient id="gold-g" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#d4aa4f"/><stop offset="100%" stop-color="#b8923e"/></linearGradient>
+      </defs>
+      <path d="M256 28 L462 120 C462 120 472 310 256 484 C40 310 50 120 50 120 Z" fill="url(#bg-g)" stroke="#b8923e" stroke-width="8"/>
+      <path d="M256 60 L432 140 C432 140 440 300 256 452 C72 300 80 140 80 140 Z" fill="none" stroke="#b8923e" stroke-width="2" opacity="0.3"/>
+      <rect x="120" y="240" width="272" height="3" rx="1.5" fill="url(#gold-g)" opacity="0.5"/>
+      <text x="256" y="230" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-size="140" font-weight="bold" fill="url(#gold-g)" letter-spacing="-5">BH</text>
+      <text x="256" y="295" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-size="32" fill="#b8923e" letter-spacing="12" opacity="0.8">HELVÉTIA</text>
+      <path d="M256 340 L260 350 L270 350 L262 356 L265 366 L256 360 L247 366 L250 356 L242 350 L252 350 Z" fill="#b8923e" opacity="0.6"/>
+    </svg>
     Banque Helvétia
   </div>
   <div class="topbar-right">
@@ -560,7 +824,7 @@
     <ul class="sidebar-nav">
       <li><a href="#" class="active"><span class="icon">&#127968;</span> Tableau de bord</a></li>
       <li><a href="#"><span class="icon">&#128179;</span> Comptes</a></li>
-      <li><a href="#"><span class="icon">&#128257;</span> Virements</a></li>
+      <li><a href="#" onclick="openVirement();return false"><span class="icon">&#128257;</span> Virements</a></li>
       <li><a href="#"><span class="icon">&#128176;</span> Cartes</a></li>
     </ul>
     <div class="sidebar-section">Services</div>
@@ -586,7 +850,7 @@
       </div>
       <div class="btn-group">
         <button class="btn btn-outline">&#128196; Relevés</button>
-        <button class="btn btn-primary">+ Nouveau virement</button>
+        <button class="btn btn-primary" onclick="openVirement()">+ Nouveau virement</button>
       </div>
     </div>
 
@@ -594,7 +858,7 @@
     <div class="cards-row">
       <div class="card highlight">
         <div class="card-label">Solde disponible</div>
-        <div class="card-amount">12 847,63 &euro;</div>
+        <div class="card-amount" id="solde-display">12 847,63 &euro;</div>
         <div class="card-sub"><span class="up">&#9650; +2,4%</span>&nbsp; vs. mois dernier</div>
       </div>
       <div class="card">
@@ -653,7 +917,7 @@
             <th style="text-align:right">Montant</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="tx-body">
           <tr>
             <td>
               <div class="tx-row-info">
@@ -812,7 +1076,7 @@
       <div class="card">
         <h2 style="font-size:16px;font-weight:700;margin-bottom:20px;">Actions rapides</h2>
         <div class="quick-actions">
-          <a href="#" class="quick-action">
+          <a href="#" class="quick-action" onclick="openVirement();return false">
             <div class="qa-icon">&#128257;</div>
             <div><div class="qa-text">Virement</div><div class="qa-sub">Envoyer de l'argent</div></div>
           </a>
@@ -866,6 +1130,242 @@
     </div>
   </main>
 </div>
+
+<!-- MODAL VIREMENT -->
+<div class="modal-overlay" id="modal-virement">
+  <div class="modal">
+    <!-- STEP 1: FORM -->
+    <div class="step-form" id="step-form">
+      <div class="modal-header">
+        <h2>&#128257; Nouveau virement</h2>
+        <button class="modal-close" onclick="closeVirement()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Compte débiteur</label>
+          <select id="v-compte">
+            <option>Compte courant &middot; FR76 1820 ...147 &middot; 12 847,63 &euro;</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Bénéficiaire</label>
+          <input type="text" id="v-beneficiaire" placeholder="Nom du bénéficiaire" required>
+        </div>
+        <div class="form-group">
+          <label>IBAN du bénéficiaire</label>
+          <input type="text" id="v-iban" placeholder="FR76 XXXX XXXX XXXX XXXX XXXX XXX" required>
+          <p class="input-hint">Format IBAN européen (27 caractères pour la France)</p>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Montant</label>
+            <input type="number" id="v-montant" placeholder="0,00" min="0.01" step="0.01" required>
+          </div>
+          <div class="form-group">
+            <label>Devise</label>
+            <select id="v-devise">
+              <option>EUR (&euro;)</option>
+              <option>USD ($)</option>
+              <option>GBP (&pound;)</option>
+              <option>CHF (CHF)</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Motif / Référence</label>
+          <textarea id="v-motif" placeholder="Ex : Remboursement, facture n°..." rows="2"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Date d'exécution</label>
+          <input type="date" id="v-date" required>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-outline btn-lg" onclick="closeVirement()">Annuler</button>
+        <button class="btn btn-primary btn-lg" onclick="showConfirmation()">Continuer</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: CONFIRMATION -->
+    <div class="step-confirm" id="step-confirm">
+      <div class="modal-header">
+        <h2>&#128274; Confirmation du virement</h2>
+        <button class="modal-close" onclick="closeVirement()">&times;</button>
+      </div>
+      <div class="confirm-amount" id="confirm-amount"></div>
+      <div class="confirm-sub">Virement unique en euros</div>
+      <div class="confirm-details">
+        <div class="confirm-row">
+          <span class="cr-label">Bénéficiaire</span>
+          <span class="cr-value" id="confirm-benef"></span>
+        </div>
+        <div class="confirm-row">
+          <span class="cr-label">IBAN</span>
+          <span class="cr-value" id="confirm-iban"></span>
+        </div>
+        <div class="confirm-row">
+          <span class="cr-label">Motif</span>
+          <span class="cr-value" id="confirm-motif"></span>
+        </div>
+        <div class="confirm-row">
+          <span class="cr-label">Date d'exécution</span>
+          <span class="cr-value" id="confirm-date"></span>
+        </div>
+        <div class="confirm-row">
+          <span class="cr-label">Frais</span>
+          <span class="cr-value">0,00 &euro;</span>
+        </div>
+      </div>
+      <div class="security-notice">
+        &#128274; Transaction sécurisée &middot; Authentification forte validée
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-outline btn-lg" onclick="backToForm()">Modifier</button>
+        <button class="btn btn-primary btn-lg" onclick="executeVirement()">&#10003; Confirmer le virement</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: SUCCESS -->
+    <div class="virement-success" id="step-success">
+      <div class="success-icon">&#10003;</div>
+      <h3>Virement effectué avec succès</h3>
+      <p id="success-msg"></p>
+      <p style="font-size:12px;color:var(--text-secondary);margin-bottom:24px;">Référence : VIR-<span id="ref-code"></span></p>
+      <button class="btn btn-primary btn-lg" onclick="closeVirement()">Retour au tableau de bord</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Service Worker
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js');
+  }
+
+  // State
+  let currentSolde = 12847.63;
+
+  // Set default date to today
+  document.getElementById('v-date').valueAsDate = new Date();
+
+  // Format number
+  function fmt(n) {
+    return n.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  // Format date
+  function fmtDate(dateStr) {
+    const d = new Date(dateStr);
+    const months = ['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
+    return String(d.getDate()).padStart(2,'0') + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+  }
+
+  // Open modal
+  function openVirement() {
+    document.getElementById('modal-virement').classList.add('active');
+    document.getElementById('step-form').classList.remove('hidden');
+    document.getElementById('step-confirm').classList.remove('active');
+    document.getElementById('step-success').classList.remove('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  // Close modal
+  function closeVirement() {
+    document.getElementById('modal-virement').classList.remove('active');
+    document.body.style.overflow = '';
+    // Reset form
+    document.getElementById('v-beneficiaire').value = '';
+    document.getElementById('v-iban').value = '';
+    document.getElementById('v-montant').value = '';
+    document.getElementById('v-motif').value = '';
+    document.getElementById('v-date').valueAsDate = new Date();
+  }
+
+  // Show confirmation
+  function showConfirmation() {
+    const benef = document.getElementById('v-beneficiaire').value.trim();
+    const iban = document.getElementById('v-iban').value.trim();
+    const montant = parseFloat(document.getElementById('v-montant').value);
+    const motif = document.getElementById('v-motif').value.trim();
+    const date = document.getElementById('v-date').value;
+
+    if (!benef || !iban || !montant || montant <= 0) {
+      alert('Veuillez remplir tous les champs obligatoires.');
+      return;
+    }
+
+    if (montant > currentSolde) {
+      alert('Solde insuffisant pour effectuer ce virement.');
+      return;
+    }
+
+    document.getElementById('confirm-amount').textContent = fmt(montant) + ' \u20AC';
+    document.getElementById('confirm-benef').textContent = benef;
+    document.getElementById('confirm-iban').textContent = iban;
+    document.getElementById('confirm-motif').textContent = motif || '\u2014';
+    document.getElementById('confirm-date').textContent = fmtDate(date);
+
+    document.getElementById('step-form').classList.add('hidden');
+    document.getElementById('step-confirm').classList.add('active');
+  }
+
+  // Back to form
+  function backToForm() {
+    document.getElementById('step-confirm').classList.remove('active');
+    document.getElementById('step-form').classList.remove('hidden');
+  }
+
+  // Execute virement
+  function executeVirement() {
+    const benef = document.getElementById('v-beneficiaire').value.trim();
+    const iban = document.getElementById('v-iban').value.trim();
+    const montant = parseFloat(document.getElementById('v-montant').value);
+    const motif = document.getElementById('v-motif').value.trim();
+    const date = document.getElementById('v-date').value;
+
+    // Update solde
+    currentSolde -= montant;
+    document.getElementById('solde-display').innerHTML = fmt(currentSolde) + ' &euro;';
+
+    // Generate ref
+    const ref = Math.random().toString(36).substring(2, 10).toUpperCase();
+    document.getElementById('ref-code').textContent = ref;
+    document.getElementById('success-msg').textContent =
+      fmt(montant) + ' \u20AC envoyés à ' + benef;
+
+    // Add to transaction table
+    const tbody = document.getElementById('tx-body');
+    const row = document.createElement('tr');
+    row.style.animation = 'modalIn 0.3s ease';
+    row.innerHTML = `
+      <td>
+        <div class="tx-row-info">
+          <div class="tx-icon transfer">&#128257;</div>
+          <div><span class="tx-label">Virement émis - ${benef}</span><span class="tx-cat">${motif || 'Virement'}</span></div>
+        </div>
+      </td>
+      <td>${fmtDate(date)}</td>
+      <td>Virements</td>
+      <td><span class="badge badge-pending">En cours</span></td>
+      <td class="tx-amount debit">-${fmt(montant)} &euro;</td>
+    `;
+    tbody.insertBefore(row, tbody.firstChild);
+
+    // Show success
+    document.getElementById('step-confirm').classList.remove('active');
+    document.getElementById('step-success').classList.add('active');
+  }
+
+  // Close modal on overlay click
+  document.getElementById('modal-virement').addEventListener('click', function(e) {
+    if (e.target === this) closeVirement();
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeVirement();
+  });
+</script>
 
 </body>
 </html>
